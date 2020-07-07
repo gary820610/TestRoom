@@ -76,6 +76,6 @@ public class PageModel : MonoBehaviour
 
     void MoveTo()
     {
-        _myRect.anchoredPosition = Vector2.Lerp(_myRect.anchoredPosition, _targetPos + _tarOffSet, 0.25f);
+        _myRect.anchoredPosition = Vector2.Lerp(_myRect.anchoredPosition, _targetPos + _tarOffSet, 0.1f);
     }
 }

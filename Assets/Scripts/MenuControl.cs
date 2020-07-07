@@ -13,19 +13,17 @@ public class MenuControl : MonoBehaviour
 
     Vector2 _touchPointStart;
     Vector2 _touchPointEnd;
-    float _moveSpeed = 0f;
+    float _moveSpeed = 0;
     float _moveDist = 0;
-    Direction _dir;
-    // Vector2 _touchOffSet;
-
+    eSlideDirection _dir;
 
     // Start is called before the first frame update
     void Start()
     {
         Input.multiTouchEnabled = true;
-        m_Cam = GameObject.FindGameObjectWithTag("MainCamera"); ;
-        _camCon = m_Cam.GetComponent<CameraController>();
-        _dir = Direction.NODIRECTION;
+        // m_Cam = GameObject.FindGameObjectWithTag("MainCamera"); ;
+        // _camCon = m_Cam.GetComponent<CameraController>();
+        _dir = eSlideDirection.NODIRECTION;
     }
 
     // Update is called once per frame
@@ -40,58 +38,51 @@ public class MenuControl : MonoBehaviour
         {
             case TouchPhase.Began:
                 _touchPointStart = Input.GetTouch(0).position;
-                // _touchOffSet = new Vector2(Screen.width / 2, Screen.height / 2) - _touchPointStart;
                 break;
             case TouchPhase.Moved:
                 var deltaPos = Input.GetTouch(0).deltaPosition;
                 var fingerPos = Input.GetTouch(0).position;
                 switch (_dir)
                 {
-                    case Direction.NODIRECTION:
-                        if (Mathf.Abs(deltaPos.x) >= Mathf.Abs(deltaPos.y)) _dir = Direction.HORIZONTAL;
-                        else _dir = Direction.VERTICAL;
+                    case eSlideDirection.NODIRECTION:
+                        if (Mathf.Abs(deltaPos.x) >= Mathf.Abs(deltaPos.y))
+                            _dir = eSlideDirection.HORIZONTAL;
+                        else _dir = eSlideDirection.VERTICAL;
                         break;
-                    case Direction.HORIZONTAL:
+                    case eSlideDirection.HORIZONTAL:
                         fingerPos.y = _touchPointStart.y;
                         break;
-                    case Direction.VERTICAL:
+                    case eSlideDirection.VERTICAL:
                         fingerPos.x = _touchPointStart.x;
                         break;
                 }
-                _UIManager.MovePage(_touchPointStart, fingerPos);
+                var fingerPosVP = Camera.main.ScreenToViewportPoint(fingerPos);
+                var touchBeganVP = Camera.main.ScreenToViewportPoint(_touchPointStart);
+                _UIManager.MovePage(touchBeganVP, fingerPosVP);
                 break;
-
-            // var newPos = new Vector2(Input.GetTouch(0).position.x - (Screen.width / 2), Input.GetTouch(0).position.y - (Screen.height / 2));
-            // var moveVec = deltaPos.y * _view.rect.height / Screen.height;
-            // var newPos2 = _pages.anchoredPosition + new Vector2(0, moveVec);
-            // _pages.anchoredPosition = newPos + _touchOffSet;
-
-            // Debug.Log("___delta : " + deltaPos);
-            // Debug.Log("newPos : " + newPos);
-            // Debug.Log("newPos2 : " + newPos2);
 
             case TouchPhase.Ended:
                 _touchPointEnd = Input.GetTouch(0).position;
                 switch (_dir)
                 {
-                    case Direction.NODIRECTION:
+                    case eSlideDirection.NODIRECTION:
                         break;
-                    case Direction.HORIZONTAL:
+                    case eSlideDirection.HORIZONTAL:
                         _moveDist = _touchPointEnd.x - _touchPointStart.x;
                         _UIManager.SlidePage(new Vector2(_moveDist, 0));
                         break;
-                    case Direction.VERTICAL:
+                    case eSlideDirection.VERTICAL:
                         _moveDist = _touchPointEnd.y - _touchPointStart.y;
                         _UIManager.SlidePage(new Vector2(0, _moveDist));
                         break;
                 }
-                _dir = Direction.NODIRECTION;
+                _dir = eSlideDirection.NODIRECTION;
                 break;
         }
     }
 }
 
-enum Direction
+enum eSlideDirection
 {
     NODIRECTION,
     HORIZONTAL,

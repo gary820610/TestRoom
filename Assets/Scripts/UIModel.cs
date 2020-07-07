@@ -9,6 +9,8 @@ public class UIModel : MonoBehaviour
     Vector2 _screenCenter;
     float _validSlideSpeed;
     float _validSlideDist;
+    float _realWidth;
+    float _realHeight;
 
     // Start is called before the first frame update
     void Start()
@@ -16,17 +18,14 @@ public class UIModel : MonoBehaviour
         _screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
         _validSlideSpeed = Screen.width * 0.4f * Time.deltaTime;
         _validSlideDist = Screen.width * 0.4f;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        _realWidth = this.gameObject.GetComponent<RectTransform>().rect.width;
+        _realHeight = this.gameObject.GetComponent<RectTransform>().rect.height;
     }
 
     public void MovePage(Vector2 fingerBegan, Vector2 fingerPos)
     {
+        fingerBegan = new Vector2(fingerBegan.x * _realWidth, fingerBegan.y * _realHeight);
+        fingerPos = new Vector2(fingerPos.x * _realWidth, fingerPos.y * _realHeight);
         Vector2 offSet = (_screenCenter - fingerBegan) + (_pages.NowPos - _pages.OriPos);
         fingerPos = new Vector2(fingerPos.x - _screenCenter.x, fingerPos.y - _screenCenter.y);
         _pages.Move2Finger(fingerPos, offSet);
