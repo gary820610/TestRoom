@@ -22,12 +22,19 @@ public class NaviBattleController : MonoBehaviour
 
     void ControlShip()
     {
+        if (_playerShip.IsMoveing)
+        {
+            _playerShip.ChangeColor(true);
+            return;
+        }
+        else _playerShip.ChangeColor(false);
+
         if (Input.touchCount <= 0) return;
 
         switch (Input.GetTouch(0).phase)
         {
             case TouchPhase.Began:
-                oriFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 10f);
+                oriFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
                 Ray ray = Camera.main.ScreenPointToRay(oriFingerPos);
                 RaycastHit hit;
                 Physics.Raycast(ray, out hit, 1000);
@@ -44,7 +51,7 @@ public class NaviBattleController : MonoBehaviour
             case TouchPhase.Moved:
                 break;
             case TouchPhase.Ended:
-                endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 10f);
+                endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
                 oriFingerPos = Camera.main.ScreenToWorldPoint(oriFingerPos);
                 endFingerPos = Camera.main.ScreenToWorldPoint(endFingerPos);
                 var forwardVec = (endFingerPos - oriFingerPos).normalized * _playerShip.GetShipLength();

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShipModel : MonoBehaviour
 {
+    public bool IsMoveing { get { return _isMoving; } }
+
     [SerializeField]
     GameObject _shipPrefab;
     [SerializeField]
@@ -12,6 +14,13 @@ public class ShipModel : MonoBehaviour
     [SerializeField]
     MovePlan _movingPlan;
 
+    bool _isMoving;
+
+    float _borderTop;
+    float _borderBot;
+    float _borderLeft;
+    float _borderRight;
+
 
 
     // Start is called before the first frame update
@@ -19,6 +28,7 @@ public class ShipModel : MonoBehaviour
     {
         ShowEffect(false);
         _targetPos = this.transform.position;
+        SetBorder();
     }
 
     // Update is called once per frame
@@ -29,8 +39,8 @@ public class ShipModel : MonoBehaviour
 
     public float GetShipLength()
     {
-        // return _shipPrefab.transform.localScale.z;
-        return 20f;
+        return _shipPrefab.transform.localScale.z * 5;
+        // return 20f;
     }
 
     public void ShowEffect(bool state)
@@ -38,13 +48,26 @@ public class ShipModel : MonoBehaviour
         _particleSys.SetActive(state);
     }
 
+    public void ChangeColor(bool tof)
+    {
+        if (tof)
+        {
+            _shipPrefab.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        }
+        else _shipPrefab.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+    }
+
     public void MoveTo(Vector3 forwardVector)
     {
         forwardVector.y = 0;
         _targetPos = this.transform.position + forwardVector;
+        float tarX = Mathf.Clamp(_targetPos.x, _borderLeft, _borderRight);
+        float tarZ = Mathf.Clamp(_targetPos.z, _borderBot, _borderTop);
+        _targetPos = new Vector3(tarX, _targetPos.y, tarZ);
+        _isMoving = true;
     }
 
-    public void Move()
+    void Move()
     {
         float distance = Vector3.Distance(this.transform.position, _targetPos);
         Vector3 direction = Vector3.Normalize(_targetPos - this.transform.position);
@@ -54,7 +77,7 @@ public class ShipModel : MonoBehaviour
         switch (_movingPlan)
         {
             case MovePlan.PLAN_A:
-                if (Mathf.Abs(angle) > 0.2)
+                if (Mathf.Abs(angle) > 0.5)
                 {
                     this.transform.Rotate(0, angle * 0.02f, 0);
                 }
@@ -62,9 +85,10 @@ public class ShipModel : MonoBehaviour
                 {
                     this.transform.position = Vector3.Lerp(this.transform.position, _targetPos, 0.01f);
                 }
+                else _isMoving = false;
                 break;
             case MovePlan.PLAN_B:
-                if (Mathf.Abs(angle) > 0.2)
+                if (Mathf.Abs(angle) > 0.5)
                 {
                     this.transform.Rotate(0, angle * 0.02f, 0);
                 }
@@ -72,17 +96,19 @@ public class ShipModel : MonoBehaviour
                 {
                     this.transform.position += this.transform.forward * 0.1f;
                 }
+                else _isMoving = false;
                 break;
         }
+    }
 
-        if (Mathf.Abs(angle) > 0.1)
-        {
-            this.transform.Rotate(0, angle * 0.02f, 0);
-        }
-        else if (distance > 3)
-        {
-
-        }
+    void SetBorder()
+    {
+        Vector3 topR = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 90f));
+        Vector3 botL = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 90f));
+        _borderTop = topR.z;
+        _borderBot = botL.z;
+        _borderLeft = botL.x;
+        _borderRight = topR.x;
     }
 }
 
