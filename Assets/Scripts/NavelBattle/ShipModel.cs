@@ -83,7 +83,7 @@ public class ShipModel : MonoBehaviour
                 }
                 else if (distance > 3)
                 {
-                    this.transform.position = Vector3.Lerp(this.transform.position, _targetPos, 0.01f);
+                    this.transform.position = Vector3.Lerp(this.transform.position, _targetPos, 0.02f);
                 }
                 else _isMoving = false;
                 break;
@@ -94,7 +94,7 @@ public class ShipModel : MonoBehaviour
                 }
                 if (distance > 3)
                 {
-                    this.transform.position += this.transform.forward * 0.1f;
+                    this.transform.Translate(this.transform.forward * Mathf.Lerp(0, 0.1f, 0.01f), Space.World);
                 }
                 else _isMoving = false;
                 break;
