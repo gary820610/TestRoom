@@ -7,19 +7,30 @@ public class ShipModel : MonoBehaviour
     public bool IsMoveing { get { return _isMoving; } }
 
     [SerializeField]
-    GameObject _shipPrefab;
+    GameObject _shipBody;
+    [SerializeField]
+    GameObject _leftCannon;
+    [SerializeField]
+    GameObject _rightCannon;
     [SerializeField]
     GameObject _particleSys;
     Vector3 _targetPos;
     [SerializeField]
     MovePlan _movingPlan;
 
-    bool _isMoving;
+    bool _isMoving = false;
 
     float _borderTop;
     float _borderBot;
     float _borderLeft;
     float _borderRight;
+
+
+    LinkedList<CannonModel> _cannons;
+
+    [SerializeField]
+    float _maxFireRange = 100;
+    LinkedListNode<CannonModel> cannonNumber;
 
 
 
@@ -29,17 +40,20 @@ public class ShipModel : MonoBehaviour
         ShowEffect(false);
         _targetPos = this.transform.position;
         SetBorder();
+        _cannons = new LinkedList<CannonModel>();
+        LoadCannons(10);
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
+
     }
 
     public float GetShipLength()
     {
-        return _shipPrefab.transform.localScale.z * 5;
+        return _shipBody.transform.localScale.z * 5;
         // return 20f;
     }
 
@@ -52,9 +66,9 @@ public class ShipModel : MonoBehaviour
     {
         if (tof)
         {
-            _shipPrefab.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            _shipBody.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         }
-        else _shipPrefab.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+        else _shipBody.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
     }
 
     public void MoveTo(Vector3 forwardVector)
@@ -65,6 +79,21 @@ public class ShipModel : MonoBehaviour
         float tarZ = Mathf.Clamp(_targetPos.z, _borderBot, _borderTop);
         _targetPos = new Vector3(tarX, _targetPos.y, tarZ);
         _isMoving = true;
+    }
+
+    public void FireCannon(string cannonSide, float power)
+    {
+        power += 0.1f;
+        Vector3 direction = new Vector3();
+        if (cannonSide == "R") direction = this.transform.right;
+        else if (cannonSide == "L") direction = this.transform.right * -1;
+
+        CannonModel cannonBall = cannonNumber.Value;
+        cannonBall.gameObject.transform.position = this.transform.position;
+        cannonBall.gameObject.SetActive(true);
+        cannonBall.Fire(this.transform.position + direction * power * _maxFireRange);
+        if (cannonNumber.Next == null) cannonNumber = _cannons.First;
+        cannonNumber = cannonNumber.Next;
     }
 
     void Move()
@@ -110,6 +139,29 @@ public class ShipModel : MonoBehaviour
         _borderLeft = botL.x;
         _borderRight = topR.x;
     }
+
+    void LoadCannons(int amount)
+    {
+        GameObject cannonIdea = AssetsLoader.LoadPrefab("CannonBall");
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject instance = GameObject.Instantiate<GameObject>(cannonIdea);
+            // instance.transform.position = new Vector3(300, 300, 300);
+            instance.transform.position = _shipBody.transform.position;
+            _cannons.AddFirst(instance.GetComponent<CannonModel>());
+            // instance.gameObject.SetActive(false);
+        }
+        cannonNumber = _cannons.First;
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "enemy")
+        {
+            Debug.Log("!!!!!! Player Get Hit !!!!!!");
+        }
+    }
+
 }
 
 enum MovePlan

@@ -8,6 +8,10 @@ public class NaviBattleController : MonoBehaviour
     ShipModel _playerShip;
     Vector3 oriFingerPos;
     Vector3 endFingerPos;
+
+    float _timer = 0;
+    bool _isAiming = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +22,30 @@ public class NaviBattleController : MonoBehaviour
     void Update()
     {
         ControlShip();
+        Aim();
+    }
+
+    public void StartAiming()
+    {
+        _isAiming = true;
+        _timer = 0;
+    }
+
+    public void FireLeftCannon()
+    {
+        _playerShip.FireCannon("L", _timer);
+        _isAiming = false;
+    }
+
+    public void FireRightCannon()
+    {
+        _playerShip.FireCannon("R", _timer);
+        _isAiming = false;
+    }
+
+    public float GetTimer()
+    {
+        return _timer;
     }
 
     void ControlShip()
@@ -59,5 +87,15 @@ public class NaviBattleController : MonoBehaviour
                 _playerShip.ShowEffect(false);
                 break;
         }
+    }
+
+    void Aim()
+    {
+        if (!_isAiming) return;
+
+        float time = Time.deltaTime;
+        if (_timer >= 2) time = Time.deltaTime * -1;
+        else if (_timer <= 0) time = Time.deltaTime;
+        _timer += time;
     }
 }
