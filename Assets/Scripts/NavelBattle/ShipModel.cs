@@ -29,7 +29,7 @@ public class ShipModel : MonoBehaviour
     LinkedList<CannonModel> _cannons;
 
     [SerializeField]
-    float _maxFireRange = 100;
+    float _maxFireRange;
     LinkedListNode<CannonModel> cannonNumber;
 
 
@@ -83,7 +83,7 @@ public class ShipModel : MonoBehaviour
 
     public void FireCannon(string cannonSide, float power)
     {
-        power += 0.1f;
+        power += Mathf.Clamp(power, 0.1f, 1);
         Vector3 direction = new Vector3();
         if (cannonSide == "R") direction = this.transform.right;
         else if (cannonSide == "L") direction = this.transform.right * -1;
@@ -91,7 +91,8 @@ public class ShipModel : MonoBehaviour
         CannonModel cannonBall = cannonNumber.Value;
         cannonBall.gameObject.transform.position = this.transform.position;
         cannonBall.gameObject.SetActive(true);
-        cannonBall.Fire(this.transform.position + direction * power * _maxFireRange);
+        cannonBall.Fire(this.transform.position + direction.normalized * power * _maxFireRange);
+        Debug.Log(this.transform.position + direction.normalized * power * _maxFireRange);
         if (cannonNumber.Next == null) cannonNumber = _cannons.First;
         cannonNumber = cannonNumber.Next;
     }

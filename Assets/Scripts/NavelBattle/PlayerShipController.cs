@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class NaviBattleController : MonoBehaviour
+public class PlayerShipController : MonoBehaviour
 {
-    [SerializeField]
     ShipModel _playerShip;
-    Vector3 oriFingerPos;
-    Vector3 endFingerPos;
+    Vector3 _oriFingerPos;
+    Vector3 _endFingerPos;
+    [SerializeField]
+    Slider _powerBar;
 
     float _timer = 0;
     bool _isAiming = false;
@@ -15,7 +17,7 @@ public class NaviBattleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        _playerShip = this.gameObject.GetComponent<ShipModel>();
     }
 
     // Update is called once per frame
@@ -62,8 +64,8 @@ public class NaviBattleController : MonoBehaviour
         switch (Input.GetTouch(0).phase)
         {
             case TouchPhase.Began:
-                oriFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
-                Ray ray = Camera.main.ScreenPointToRay(oriFingerPos);
+                _oriFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
+                Ray ray = Camera.main.ScreenPointToRay(_oriFingerPos);
                 RaycastHit hit;
                 Physics.Raycast(ray, out hit, 1000);
                 if (hit.collider == null || hit.collider.gameObject.tag != "Player")
@@ -79,10 +81,10 @@ public class NaviBattleController : MonoBehaviour
             case TouchPhase.Moved:
                 break;
             case TouchPhase.Ended:
-                endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
-                oriFingerPos = Camera.main.ScreenToWorldPoint(oriFingerPos);
-                endFingerPos = Camera.main.ScreenToWorldPoint(endFingerPos);
-                var forwardVec = (endFingerPos - oriFingerPos).normalized * _playerShip.GetShipLength();
+                _endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
+                _oriFingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
+                _endFingerPos = Camera.main.ScreenToWorldPoint(_endFingerPos);
+                var forwardVec = (_endFingerPos - _oriFingerPos).normalized * _playerShip.GetShipLength();
                 _playerShip.MoveTo(forwardVec);
                 _playerShip.ShowEffect(false);
                 break;
@@ -91,11 +93,11 @@ public class NaviBattleController : MonoBehaviour
 
     void Aim()
     {
+        _powerBar.value = _timer;
         if (!_isAiming) return;
 
-        float time = Time.deltaTime;
-        if (_timer >= 2) time = Time.deltaTime * -1;
-        else if (_timer <= 0) time = Time.deltaTime;
-        _timer += time;
+        if (_timer >= 1) _timer = 0;
+        _timer += Time.deltaTime;
+        _powerBar.value = _timer;
     }
 }
