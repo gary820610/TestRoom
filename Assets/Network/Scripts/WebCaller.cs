@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 
 public class WebCaller : MonoBehaviour
 {
+    [SerializeField]
+    NetworkUIMode _UIMode;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,9 +19,14 @@ public class WebCaller : MonoBehaviour
 
     }
 
-    public void Call()
+    public void CallServer()
     {
-        StartCoroutine(SendMsg());
+        StartCoroutine(GetMsg());
+    }
+
+    public void PostData()
+    {
+        StartCoroutine(SendMsg(_UIMode.GetInputText("UserAccount"), _UIMode.GetInputText("Password")));
 
     }
 
@@ -31,11 +38,27 @@ public class WebCaller : MonoBehaviour
         }
     }
 
-    IEnumerator SendMsg()
+    IEnumerator GetMsg()
+    {
+        UnityWebRequest www = UnityWebRequest.Get("https://localhost:44316/api/values");
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else if (www.downloadHandler.text != null)
+        {
+            Debug.Log(www.downloadHandler.text);
+        }
+        else Debug.Log("***No Data Received***");
+    }
+
+    IEnumerator SendMsg(string userAccount, string password)
     {
         WWWForm form = new WWWForm();
-        form.AddField("Account", "Asato");
-        form.AddField("Password", "qwerty");
+        form.AddField("Account", userAccount);
+        form.AddField("Password", password);
 
         UserInfo user = new UserInfo { Account = "Asato", Password = "qwerty" };
         string f = JsonUtility.ToJson(user);
