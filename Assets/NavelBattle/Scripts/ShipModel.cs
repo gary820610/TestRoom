@@ -37,7 +37,6 @@ public class ShipModel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ShowEffect(false);
         _targetPos = this.transform.position;
         SetBorder();
         _cannons = new LinkedList<CannonModel>();
@@ -55,11 +54,6 @@ public class ShipModel : MonoBehaviour
     {
         return _shipBody.transform.localScale.z * 5;
         // return 20f;
-    }
-
-    public void ShowEffect(bool state)
-    {
-        _particleSys.SetActive(state);
     }
 
     public void ChangeColor(bool tof)
@@ -81,18 +75,13 @@ public class ShipModel : MonoBehaviour
         _isMoving = true;
     }
 
-    public void FireCannon(string cannonSide, float power)
+    public void FireCannon(Vector3 target)
     {
-        power += Mathf.Clamp(power, 0.1f, 1);
-        Vector3 direction = new Vector3();
-        if (cannonSide == "R") direction = this.transform.right;
-        else if (cannonSide == "L") direction = this.transform.right * -1;
-
         CannonModel cannonBall = cannonNumber.Value;
         cannonBall.gameObject.transform.position = this.transform.position;
         cannonBall.gameObject.SetActive(true);
-        cannonBall.Fire(this.transform.position + direction.normalized * power * _maxFireRange);
-        Debug.Log(this.transform.position + direction.normalized * power * _maxFireRange);
+        cannonBall.Fire(target);
+        Debug.Log(target);
         if (cannonNumber.Next == null) cannonNumber = _cannons.First;
         cannonNumber = cannonNumber.Next;
     }
@@ -150,7 +139,7 @@ public class ShipModel : MonoBehaviour
             // instance.transform.position = new Vector3(300, 300, 300);
             instance.transform.position = _shipBody.transform.position;
             _cannons.AddFirst(instance.GetComponent<CannonModel>());
-            // instance.gameObject.SetActive(false);
+            instance.gameObject.SetActive(false);
         }
         cannonNumber = _cannons.First;
     }

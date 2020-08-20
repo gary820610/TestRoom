@@ -7,6 +7,7 @@ public class WebCaller : MonoBehaviour
 {
     [SerializeField]
     NetworkUIMode _UIMode;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,15 +20,26 @@ public class WebCaller : MonoBehaviour
 
     }
 
+    public void Register()
+    {
+        string userName = _UIMode.GetInputText("UserAccount");
+        string password = _UIMode.GetInputText("Password");
+        if (userName == "" || password == "")
+        {
+            Debug.LogWarning("帳戶名稱或密碼不可留白");
+            return;
+        }
+        StartCoroutine(SendMsg(userName, password, "https://localhost:44316/api/user/signup", SignUp));
+    }
+
     public void CallServer()
     {
-        StartCoroutine(GetMsg());
+        StartCoroutine(GetMsg("https://localhost:44316/api/user/hello"));
     }
 
     public void PostData()
     {
-        StartCoroutine(SendMsg(_UIMode.GetInputText("UserAccount"), _UIMode.GetInputText("Password")));
-
+        // StartCoroutine(SendMsg(_UIMode.GetInputText("UserAccount"), _UIMode.GetInputText("Password"), "https://localhost:44316/api/values"));
     }
 
     public void PrintData(string[] data)
@@ -38,9 +50,9 @@ public class WebCaller : MonoBehaviour
         }
     }
 
-    IEnumerator GetMsg()
+    IEnumerator GetMsg(string url)
     {
-        UnityWebRequest www = UnityWebRequest.Get("https://localhost:44316/api/values");
+        UnityWebRequest www = UnityWebRequest.Get(url);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -54,15 +66,13 @@ public class WebCaller : MonoBehaviour
         else Debug.Log("***No Data Received***");
     }
 
-    IEnumerator SendMsg(string userAccount, string password)
+    IEnumerator SendMsg(string userAccount, string password, string url, System.Action<string> action)
     {
         WWWForm form = new WWWForm();
         form.AddField("Account", userAccount);
         form.AddField("Password", password);
 
-        UserInfo user = new UserInfo { Account = "Asato", Password = "qwerty" };
-        string f = JsonUtility.ToJson(user);
-        UnityWebRequest www = UnityWebRequest.Post("https://localhost:44316/api/values", form);
+        UnityWebRequest www = UnityWebRequest.Post(url, form);
         // www.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
         yield return www.SendWebRequest();
 
@@ -73,13 +83,29 @@ public class WebCaller : MonoBehaviour
         else if (www.downloadHandler.text != null)
         {
             Debug.Log(www.downloadHandler.text);
+            action(www.downloadHandler.text);
         }
         else Debug.Log("***No Data Received***");
     }
+
+    void SignUp(string name)
+    {
+        Debug.Log(name + " sign up successed");
+    }
 }
+
+
 
 public class UserInfo
 {
     public string Account;
     public string Password;
+}
+
+public class User
+{
+    public int ID { get; set; }
+    public string Account { get; set; }
+    public string Password { get; set; }
+    public string Mail { get; set; }
 }
