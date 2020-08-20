@@ -29,7 +29,7 @@ public class ShipModel : MonoBehaviour
     LinkedList<CannonModel> _cannons;
 
     [SerializeField]
-    float _maxFireRange;
+    float _maxFireRange = 1000;
     LinkedListNode<CannonModel> cannonNumber;
 
 
@@ -77,8 +77,14 @@ public class ShipModel : MonoBehaviour
 
     public void FireCannon(Vector3 target)
     {
+        Vector3 nowPos = this.gameObject.transform.position;
+        // if (Vector3.Distance(nowPos, target) > _maxFireRange)
+        // {
+        //     target = target.normalized * _maxFireRange;
+        // }
         CannonModel cannonBall = cannonNumber.Value;
-        cannonBall.gameObject.transform.position = this.transform.position;
+        Vector3 oriPos = this.transform.position;
+        cannonBall.gameObject.transform.position = oriPos;
         cannonBall.gameObject.SetActive(true);
         cannonBall.Fire(target);
         Debug.Log(target);

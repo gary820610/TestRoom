@@ -245,5 +245,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canonHeight: 0
-  G: 9.8
+  G: 0.98
   _speed: 10

@@ -11,6 +11,7 @@ public class PlayerShipController : MonoBehaviour
     GameObject _pressEffect;
     Vector3 _oriFingerPos;
     Vector3 _endFingerPos;
+    Vector3 _fingerPosWorld;
 
     int _timer;
     int _maxFirePressTime = 30;
@@ -44,25 +45,43 @@ public class PlayerShipController : MonoBehaviour
         switch (Input.GetTouch(0).phase)
         {
             case TouchPhase.Began:
-                _oriFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
-                Vector3 fingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
+                _oriFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 10f);
+                Ray ray = Camera.main.ScreenPointToRay(_oriFingerPos);
+                RaycastHit hit;
+                Physics.Raycast(ray, out hit, 1000);
+                if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Water"))
+                {
+                    Debug.Log("Not a water");
+                }
+                else
+                {
+                    _fingerPosWorld = hit.point;
+                }
+                //Vector3 fingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
                 break;
             case TouchPhase.Stationary:
                 _timer += 1;
                 if (_timer > 25)
                 {
-                    Vector3 fingerPosNow = Camera.main.ScreenToWorldPoint(_oriFingerPos);
-                    ShowEffect(true, fingerPosNow);
+                    ShowEffect(true, _fingerPosWorld);
                 }
                 break;
             case TouchPhase.Ended:
-                _endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 100f);
+                _endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 10f);
                 float dist = Vector3.Distance(_oriFingerPos, _endFingerPos);
 
                 if (_timer < _maxFirePressTime)
                 {
-                    Vector3 targetPos = Camera.main.ScreenToWorldPoint(_endFingerPos);
-                    Fire(targetPos);
+                    ray = Camera.main.ScreenPointToRay(_endFingerPos);
+                    Physics.Raycast(ray, out hit, 1000);
+                    if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Water"))
+                    {
+                        Debug.Log("Not a water");
+                    }
+                    else
+                    {
+                        Fire(hit.point);
+                    }
                 }
                 else if (dist > _minMoveSlideLength)
                 {
