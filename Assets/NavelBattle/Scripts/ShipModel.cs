@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipModel : MonoBehaviour
+public class ShipModel : MonoBehaviour, IShipModel
 {
-    public bool IsMoveing { get { return _isMoving; } }
+
+    ShipData _shipData;
 
     [SerializeField]
     GameObject _shipBody;
     [SerializeField]
-    GameObject _leftCannon;
+    GameObject _cannonA;
     [SerializeField]
-    GameObject _rightCannon;
+    GameObject _cannonB;
     [SerializeField]
-    GameObject _particleSys;
-    Vector3 _targetPos;
-    [SerializeField]
-    MovePlan _movingPlan;
-
-    bool _isMoving = false;
+    GameObject _cannonC;
+    Vector3 _moveDir;
 
     float _borderTop;
     float _borderBot;
@@ -32,14 +29,13 @@ public class ShipModel : MonoBehaviour
     float _maxFireRange = 1000;
     LinkedListNode<CannonModel> cannonNumber;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
-        _targetPos = this.transform.position;
+        _moveDir = this.transform.forward;
         SetBorder();
         _cannons = new LinkedList<CannonModel>();
+        //LoadCannons(_shipData.cannonCapacity);
         LoadCannons(10);
     }
 
@@ -47,13 +43,6 @@ public class ShipModel : MonoBehaviour
     void Update()
     {
         Move();
-
-    }
-
-    public float GetShipLength()
-    {
-        return _shipBody.transform.localScale.z * 5;
-        // return 20f;
     }
 
     public void ChangeColor(bool tof)
@@ -68,14 +57,11 @@ public class ShipModel : MonoBehaviour
     public void MoveTo(Vector3 forwardVector)
     {
         forwardVector.y = 0;
-        _targetPos = this.transform.position + forwardVector;
-        float tarX = Mathf.Clamp(_targetPos.x, _borderLeft, _borderRight);
-        float tarZ = Mathf.Clamp(_targetPos.z, _borderBot, _borderTop);
-        _targetPos = new Vector3(tarX, _targetPos.y, tarZ);
-        _isMoving = true;
+        //_moveDir = this.transform.position + (forwardVector * 1000);
+        _moveDir = forwardVector * 1000;
     }
 
-    public void FireCannon(Vector3 target)
+    public void Fire(Vector3 target)
     {
         Vector3 nowPos = this.gameObject.transform.position;
         // if (Vector3.Distance(nowPos, target) > _maxFireRange)
@@ -94,35 +80,20 @@ public class ShipModel : MonoBehaviour
 
     void Move()
     {
-        float distance = Vector3.Distance(this.transform.position, _targetPos);
-        Vector3 direction = Vector3.Normalize(_targetPos - this.transform.position);
-        float angle = Vector3.Angle(this.transform.forward, direction);
-        if (Vector3.Cross(this.transform.forward, direction).y < 0) angle *= -1;
+        float distance = Vector3.Distance(this.transform.position, this.transform.position + _moveDir);
+        Vector3 direction = Vector3.Normalize(_moveDir - this.transform.position);
+        float angle = Vector3.Angle(this.transform.forward, _moveDir);
+        if (Vector3.Cross(this.transform.forward, _moveDir).y < 0) angle *= -1;
 
-        switch (_movingPlan)
+        if (Mathf.Abs(angle) > 10)
         {
-            case MovePlan.PLAN_A:
-                if (Mathf.Abs(angle) > 0.5)
-                {
-                    this.transform.Rotate(0, angle * 0.02f, 0);
-                }
-                else if (distance > 3)
-                {
-                    this.transform.position = Vector3.Lerp(this.transform.position, _targetPos, 0.02f);
-                }
-                else _isMoving = false;
-                break;
-            case MovePlan.PLAN_B:
-                if (Mathf.Abs(angle) > 0.5)
-                {
-                    this.transform.Rotate(0, angle * 0.02f, 0);
-                }
-                if (distance > 3)
-                {
-                    this.transform.Translate(this.transform.forward * Mathf.Lerp(0, 0.1f, 0.01f), Space.World);
-                }
-                else _isMoving = false;
-                break;
+            this.transform.Rotate(0, 10 * angle / Mathf.Abs(angle), 0);
+        }
+
+        if (distance > 3)
+        {
+            //this.transform.position += this.transform.forward * Time.deltaTime * 5;
+            this.transform.Translate(this.transform.forward * Mathf.Lerp(0, 5f, 0.1f), Space.World);
         }
     }
 
@@ -158,10 +129,4 @@ public class ShipModel : MonoBehaviour
         }
     }
 
-}
-
-enum MovePlan
-{
-    PLAN_A,
-    PLAN_B
 }

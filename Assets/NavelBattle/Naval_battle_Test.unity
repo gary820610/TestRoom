@@ -785,11 +785,11 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
-  autoRandomSeed: 1
+  autoRandomSeed: 0
   useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
@@ -961,7 +961,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5849056, g: 1, b: 0.78277117, a: 1}
+      maxColor: {r: 1, g: 0.26427844, b: 0.1273585, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1339,7 +1339,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -5816,10 +5816,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shipBody: {fileID: 104321704}
-  _leftCannon: {fileID: 434528579}
-  _rightCannon: {fileID: 1356544414}
-  _particleSys: {fileID: 745752230}
-  _movingPlan: 0
+  _cannonA: {fileID: 0}
+  _cannonB: {fileID: 0}
+  _cannonC: {fileID: 0}
   _maxFireRange: 20
 --- !u!1 &840939109
 GameObject:
@@ -6245,7 +6244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerShip: {fileID: 823730422}
-  _pressEffect: {fileID: 745752230}
+  _pressEffect: {fileID: 745752233}
 --- !u!4 &1467408078
 Transform:
   m_ObjectHideFlags: 0

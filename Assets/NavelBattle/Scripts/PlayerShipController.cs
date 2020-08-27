@@ -8,13 +8,13 @@ public class PlayerShipController : MonoBehaviour
     [SerializeField]
     ShipModel _playerShip;
     [SerializeField]
-    GameObject _pressEffect;
+    ParticleSystem _pressEffect;
     Vector3 _oriFingerPos;
     Vector3 _endFingerPos;
     Vector3 _fingerPosWorld;
 
     int _timer;
-    int _maxFirePressTime = 30;
+    int _maxFirePressTime = 300;
     float _minMoveSlideLength = 100;
 
     // Start is called before the first frame update
@@ -22,7 +22,6 @@ public class PlayerShipController : MonoBehaviour
     {
         //_playerShip = this.gameObject.GetComponent<ShipModel>();
         _timer = 0;
-        _pressEffect.SetActive(false);
     }
 
     // Update is called once per frame
@@ -33,13 +32,6 @@ public class PlayerShipController : MonoBehaviour
 
     void ControlShip()
     {
-        if (_playerShip.IsMoveing)
-        {
-            _playerShip.ChangeColor(true);
-            return;
-        }
-        else _playerShip.ChangeColor(false);
-
         if (Input.touchCount <= 0) return;
 
         switch (Input.GetTouch(0).phase)
@@ -59,18 +51,18 @@ public class PlayerShipController : MonoBehaviour
                 }
                 //Vector3 fingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
                 break;
-            case TouchPhase.Stationary:
-                _timer += 1;
-                if (_timer > 25)
-                {
-                    ShowEffect(true, _fingerPosWorld);
-                }
-                break;
             case TouchPhase.Ended:
                 _endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 10f);
                 float dist = Vector3.Distance(_oriFingerPos, _endFingerPos);
 
-                if (_timer < _maxFirePressTime)
+                if (dist > _minMoveSlideLength)
+                {
+                    _oriFingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
+                    _endFingerPos = Camera.main.ScreenToWorldPoint(_endFingerPos);
+                    var forwardVec = (_endFingerPos - _oriFingerPos).normalized;
+                    _playerShip.MoveTo(forwardVec);
+                }
+                else if (_timer < _maxFirePressTime)
                 {
                     ray = Camera.main.ScreenPointToRay(_endFingerPos);
                     Physics.Raycast(ray, out hit, 1000);
@@ -81,31 +73,24 @@ public class PlayerShipController : MonoBehaviour
                     else
                     {
                         Fire(hit.point);
+                        ShowEffect(hit.point);
                     }
                 }
-                else if (dist > _minMoveSlideLength)
-                {
-                    _oriFingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
-                    _endFingerPos = Camera.main.ScreenToWorldPoint(_endFingerPos);
-                    var forwardVec = (_endFingerPos - _oriFingerPos).normalized * _playerShip.GetShipLength();
-                    _playerShip.MoveTo(forwardVec);
-                }
                 _timer = 0;
-                ShowEffect(false, Vector3.zero);
                 break;
         }
     }
 
-    void ShowEffect(bool onOff, Vector3 fingerPos)
+    void ShowEffect(Vector3 fingerPos)
     {
-        _pressEffect.SetActive(onOff);
         fingerPos.y = _playerShip.gameObject.transform.position.y;
-        _pressEffect.transform.position = fingerPos;
+        _pressEffect.gameObject.transform.position = fingerPos;
+        _pressEffect.Play();
     }
 
     void Fire(Vector3 target)
     {
-        _playerShip.FireCannon(target);
+        _playerShip.Fire(target);
         Debug.LogWarning("FIRE!!!!!!!!");
     }
 
