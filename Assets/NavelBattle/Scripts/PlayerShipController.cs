@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerShipController : MonoBehaviour
 {
     [SerializeField]
-    ShipModel _playerShip;
+    ShipModel _myShip;
     [SerializeField]
     ParticleSystem _pressEffect;
     Vector3 _oriFingerPos;
@@ -21,6 +21,7 @@ public class PlayerShipController : MonoBehaviour
     void Start()
     {
         //_playerShip = this.gameObject.GetComponent<ShipModel>();
+        MeasureMapBorder();
         _timer = 0;
     }
 
@@ -49,7 +50,6 @@ public class PlayerShipController : MonoBehaviour
                 {
                     _fingerPosWorld = hit.point;
                 }
-                //Vector3 fingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
                 break;
             case TouchPhase.Ended:
                 _endFingerPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 10f);
@@ -60,7 +60,8 @@ public class PlayerShipController : MonoBehaviour
                     _oriFingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
                     _endFingerPos = Camera.main.ScreenToWorldPoint(_endFingerPos);
                     var forwardVec = (_endFingerPos - _oriFingerPos).normalized;
-                    _playerShip.MoveTo(forwardVec);
+                    _myShip.MoveTo(forwardVec);
+                    _myShip.StartMoving();
                 }
                 else if (_timer < _maxFirePressTime)
                 {
@@ -81,31 +82,46 @@ public class PlayerShipController : MonoBehaviour
         }
     }
 
+    void MeasureMapBorder()
+    {
+        Vector3 topR = Vector3.zero;
+        Vector3 botL = Vector3.zero;
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width, Screen.height, 10f));
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit, 1000);
+        if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Water"))
+        {
+            Debug.Log("Out of BattleField");
+        }
+        else
+        {
+            topR = hit.point;
+        }
+
+        ray = Camera.main.ScreenPointToRay(new Vector3(0, 0, 10f));
+        Physics.Raycast(ray, out hit, 1000);
+        if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Water"))
+        {
+            Debug.Log("Out of BattleField");
+        }
+        else
+        {
+            botL = hit.point;
+        }
+
+        _myShip.SetBorder(new NaviMapData(topR, botL));
+    }
+
     void ShowEffect(Vector3 fingerPos)
     {
-        fingerPos.y = _playerShip.gameObject.transform.position.y;
+        fingerPos.y = _myShip.gameObject.transform.position.y;
         _pressEffect.gameObject.transform.position = fingerPos;
         _pressEffect.Play();
     }
 
     void Fire(Vector3 target)
     {
-        _playerShip.Fire(target);
+        _myShip.Fire(target);
         Debug.LogWarning("FIRE!!!!!!!!");
-    }
-
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
-
-    public override bool Equals(object other)
-    {
-        return base.Equals(other);
-    }
-
-    public override string ToString()
-    {
-        return base.ToString();
     }
 }

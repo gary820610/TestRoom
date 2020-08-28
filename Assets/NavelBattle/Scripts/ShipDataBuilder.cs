@@ -32,8 +32,8 @@ public class ShipDataBuilder
                 break;
         }
         shipData.maxSpeed = 1;
-        shipData.acceleration = 1;
-        shipData.turningSpeed = 1;
+        shipData.acceleration = 10;
+        shipData.turningSpeed = 10;
         shipData.cannonAtk = 500;
         shipData.strikeAtk = 20;
         shipData.morale = 100;
