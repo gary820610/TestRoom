@@ -139,7 +139,7 @@ public class ShipModel : MonoBehaviour, IShipModel
 
     bool ReachBorder()
     {
-        Vector3 prob = this.transform.position + (this.transform.forward * 10);
+        Vector3 prob = this.transform.position + (this.transform.forward * 5);
         if (prob.x <= _mapData.LeftBorder || prob.x >= _mapData.RightBorder || prob.z <= _mapData.BotBorder || prob.z >= _mapData.TopBorder)
         {
             Debug.LogWarning("Hit the border!!! " + prob);

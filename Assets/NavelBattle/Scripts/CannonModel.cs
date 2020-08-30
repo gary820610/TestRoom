@@ -9,7 +9,7 @@ public class CannonModel : MonoBehaviour
     [SerializeField]
     float G;
     [SerializeField]
-    float _speed = 30;
+    float _speed;
     float _verticalSpeed;
     float _timer;
     bool _isFired = false;
@@ -63,7 +63,7 @@ public class CannonModel : MonoBehaviour
     void Move()
     {
         /*Arrived*/
-        if (this.transform.position.y < _target.y - 7.5)
+        if (this.transform.position.y < _target.y - 20)
         {
             this.gameObject.SetActive(false);
             this.transform.position = _oriPos;

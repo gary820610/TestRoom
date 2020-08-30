@@ -13,8 +13,8 @@ public static class ShipDataHelper
                 shipData.maxArmour = 1000;
                 shipData.crewNum = 20;
                 shipData.cannonNum = 1;
-                shipData.maxSpeed = 10f;
-                shipData.acceleration = 3;
+                shipData.maxSpeed = 3;
+                shipData.acceleration = 1f;
                 shipData.turningSpeed = 75;
                 shipData.cannonAtk = 500;
                 shipData.strikeAtk = 20;
