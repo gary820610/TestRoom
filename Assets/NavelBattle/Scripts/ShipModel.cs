@@ -32,8 +32,26 @@ public class ShipModel : MonoBehaviour, IShipModel
 
     void Start()
     {
+        _isStart = false;
+        _shipData = new ShipData();
+        InitShipModel(new List<string>() { "sample text" });
+    }
+
+    void Update()
+    {
+        if (!_isStart) return;
+        Move();
+    }
+
+    public void InitShipModel(List<string> components)
+    {
+        foreach (string gearID in components)
+        {
+            ShipDataHelper.AddGear(ref _shipData, ShipDataHelper.GenerateData(gearID));
+        }
+
         //讀取船艦面板
-        _shipData = ShipDataBuilder.GenerateData(_shipType);
+        _shipData = ShipDataHelper.GenerateDataTest(_shipType);
 
         //初始化船艦物理數值
         _speed = 0;
@@ -43,14 +61,6 @@ public class ShipModel : MonoBehaviour, IShipModel
         //初始化砲彈
         _cannons = new LinkedList<CannonModel>();
         LoadCannons(_shipData.cannonCapacity);
-
-        _isStart = false;
-    }
-
-    void Update()
-    {
-        if (!_isStart) return;
-        Move();
     }
 
     public void ChangeColor(bool tof)
@@ -103,41 +113,33 @@ public class ShipModel : MonoBehaviour, IShipModel
 
         if (Mathf.Abs(angle) > 5)
         {
-            this.transform.Rotate(0, Mathf.LerpAngle(0, _shipData.turningSpeed, Time.time) * angle / Mathf.Abs(angle), 0);
+            this.transform.Rotate(0, Mathf.LerpAngle(0, _shipData.turningSpeed * Time.deltaTime, Time.time) * angle / Mathf.Abs(angle), 0);
         }
         else if (Mathf.Abs(angle) > 1)
         {
-            this.transform.Rotate(0, Mathf.LerpAngle(_shipData.turningSpeed, 0, Time.time) * angle / Mathf.Abs(angle), 0);
+            this.transform.Rotate(0, Mathf.LerpAngle(_shipData.turningSpeed * Time.deltaTime, 0, Time.time) * angle / Mathf.Abs(angle), 0);
         }
-
-        // if (Mathf.Abs(angle) > _shipData.turningSpeed)
-        // {
-        //     this.transform.Rotate(0, 10 * angle / Mathf.Abs(angle), 0);
-        // }
-        // else
-        // {
-        //     this.transform.Rotate(0, 10 * angle / Mathf.Abs(angle), 0);
-        // }
 
         if (ReachBorder())
         {
             //停止時固定在1秒內停止
             _speed -= _speed * Time.deltaTime;
             _speed = Mathf.Clamp(_speed, 0, _shipData.maxSpeed);
-            this.transform.Translate(this.transform.forward * _speed, Space.World);
+            this.transform.Translate(this.transform.forward * _speed * Time.deltaTime, Space.World);
         }
         else
         {
             //起步時依照加速能力加速至極限速度
+
             _speed += _shipData.acceleration * Time.deltaTime;
             _speed = Mathf.Clamp(_speed, 0, _shipData.maxSpeed);
-            this.transform.Translate(this.transform.forward * _speed, Space.World);
+            this.transform.Translate(this.transform.forward * _speed * Time.deltaTime, Space.World);
         }
     }
 
     bool ReachBorder()
     {
-        Vector3 prob = this.transform.position + (this.transform.forward * 20);
+        Vector3 prob = this.transform.position + (this.transform.forward * 10);
         if (prob.x <= _mapData.LeftBorder || prob.x >= _mapData.RightBorder || prob.z <= _mapData.BotBorder || prob.z >= _mapData.TopBorder)
         {
             Debug.LogWarning("Hit the border!!! " + prob);

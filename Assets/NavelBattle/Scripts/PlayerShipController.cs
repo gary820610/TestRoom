@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerShipController : MonoBehaviour
+public class PlayerShipController : MonoBehaviour, IShipController
 {
     [SerializeField]
     ShipModel _myShip;
@@ -28,10 +28,10 @@ public class PlayerShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ControlShip();
+        Move();
     }
 
-    void ControlShip()
+    public void Move()
     {
         if (Input.touchCount <= 0) return;
 
@@ -82,7 +82,7 @@ public class PlayerShipController : MonoBehaviour
         }
     }
 
-    void MeasureMapBorder()
+    public void MeasureMapBorder()
     {
         Vector3 topR = Vector3.zero;
         Vector3 botL = Vector3.zero;
@@ -112,16 +112,16 @@ public class PlayerShipController : MonoBehaviour
         _myShip.SetBorder(new NaviMapData(topR, botL));
     }
 
+    public void Fire(Vector3 target)
+    {
+        _myShip.Fire(target);
+        Debug.LogWarning("FIRE!!!!!!!!");
+    }
+
     void ShowEffect(Vector3 fingerPos)
     {
         fingerPos.y = _myShip.gameObject.transform.position.y;
         _pressEffect.gameObject.transform.position = fingerPos;
         _pressEffect.Play();
-    }
-
-    void Fire(Vector3 target)
-    {
-        _myShip.Fire(target);
-        Debug.LogWarning("FIRE!!!!!!!!");
     }
 }

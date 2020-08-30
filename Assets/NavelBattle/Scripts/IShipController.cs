@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IShipModel
+public interface IShipController
 {
-    void InitShipModel(List<string> components);
-    void MoveTo(Vector3 target);
+    void Move();
     void Fire(Vector3 target);
+    void MeasureMapBorder();
 }

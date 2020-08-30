@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipData
-{      
-    public int shipType;
+{
+    public int ID;
+    public string name;
+
     public float maxArmour;
     public float maxSpeed;
     public float acceleration;

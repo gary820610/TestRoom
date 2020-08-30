@@ -9,7 +9,7 @@ public class CannonModel : MonoBehaviour
     [SerializeField]
     float G;
     [SerializeField]
-    float _speed = 10;
+    float _speed = 30;
     float _verticalSpeed;
     float _timer;
     bool _isFired = false;
@@ -17,12 +17,15 @@ public class CannonModel : MonoBehaviour
     Vector3 _oriPos;
     Quaternion _oriRot;
 
+    int _atk;
+
     // Start is called before the first frame update
     void Start()
     {
         _target = this.transform.position;
         _oriPos = this.transform.position;
         _oriRot = this.transform.rotation;
+        _atk = 0;
     }
 
     // Update is called once per frame
@@ -32,14 +35,24 @@ public class CannonModel : MonoBehaviour
         Move();
     }
 
+    public void SetAtk(int atk)
+    {
+        _atk = atk;
+    }
+
+    public int GetAtk()
+    {
+        return _atk;
+    }
+
     public void Fire(Vector3 target)
     {
-        // float angle = Vector3.Angle(this.transform.forward, target);
-        // this.transform.Rotate(0, angle, 0);
         this.transform.LookAt(target);
         _target = new Vector3(target.x, _canonHeight, target.z);
         Vector3 cannonball = this.transform.position;
-        float distance = Vector3.Distance(this.transform.position, _target);
+
+        /* 0.95為動畫效果的誤差修正參數，因砲彈發射高度比隱沒點高，故以此方法計算時砲彈隱沒點會比目標落點略遠 */
+        float distance = Vector3.Distance(this.transform.position, _target * 0.95f);
         float flyTime = distance / _speed;
         float riseTime = flyTime / 2;
         _verticalSpeed = G * riseTime;
