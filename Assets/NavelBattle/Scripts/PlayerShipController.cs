@@ -11,6 +11,7 @@ public class PlayerShipController : MonoBehaviour, IShipController {
     Vector3 _fingerPosWorld;
 
     int _timer = 0;
+    float _cdTimer = 2;
     int _maxFirePressTime = 300;
     float _minMoveSlideLength = 100;
 
@@ -23,6 +24,7 @@ public class PlayerShipController : MonoBehaviour, IShipController {
 
     // Update is called once per frame
     void Update () {
+        FireCD ();
         Move ();
     }
 
@@ -58,7 +60,6 @@ public class PlayerShipController : MonoBehaviour, IShipController {
                         Debug.Log ("Not a water");
                     } else {
                         Fire (hit.point);
-                        ShowEffect (hit.point);
                     }
                 }
                 _timer = 0;
@@ -67,7 +68,15 @@ public class PlayerShipController : MonoBehaviour, IShipController {
     }
 
     public void Fire (Vector3 target) {
+        Debug.Log ("CD ++++++ " + _cdTimer);
+        if (_cdTimer < 2) return;
+        ShowEffect (target);
         _myShip.Fire (target);
+        _cdTimer = 0;
+    }
+
+    void FireCD () {
+        _cdTimer += Time.deltaTime;
     }
 
     void ShowEffect (Vector3 fingerPos) {

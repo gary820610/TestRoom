@@ -11,7 +11,6 @@ public class Ship : MonoBehaviour {
     bool _isStart;
     float _speed;
     float _armour;
-    float _cdTimer = 2;
     Vector3 _moveDir;
 
     LinkedList<CannonModel> _cannons;
@@ -23,7 +22,6 @@ public class Ship : MonoBehaviour {
 
     void Update () {
         if (!_isStart) return;
-        FireCD ();
         Move ();
     }
 
@@ -60,8 +58,6 @@ public class Ship : MonoBehaviour {
     }
 
     public void Fire (Vector3 target) {
-        Debug.Log ("CD ++++++ " + _cdTimer);
-        if (_cdTimer < 2) return;
         Vector3 nowPos = this.gameObject.transform.position;
         CannonModel cannonBall = cannonNumber.Value;
         Vector3 oriPos = this.transform.position;
@@ -70,7 +66,7 @@ public class Ship : MonoBehaviour {
         cannonBall.Fire (target);
         if (cannonNumber.Next == null) cannonNumber = _cannons.First;
         cannonNumber = cannonNumber.Next;
-        _cdTimer = 0;
+
     }
 
     public void SetBorder (NaviMapData mapData) {
@@ -79,10 +75,6 @@ public class Ship : MonoBehaviour {
 
     public void StartMoving () {
         _isStart = true;
-    }
-
-    void FireCD () {
-        _cdTimer += Time.deltaTime;
     }
 
     void Move () {
