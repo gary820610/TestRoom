@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonModel : MonoBehaviour
-{
+public class CannonModel : MonoBehaviour {
     [SerializeField]
     float _canonHeight;
     [SerializeField]
@@ -17,11 +16,10 @@ public class CannonModel : MonoBehaviour
     Vector3 _oriPos;
     Quaternion _oriRot;
 
-    int _atk;
+    float _atk;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start () {
         _target = this.transform.position;
         _oriPos = this.transform.position;
         _oriRot = this.transform.rotation;
@@ -29,30 +27,26 @@ public class CannonModel : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update () {
         if (_isFired == false) return;
-        Move();
+        Move ();
     }
 
-    public void SetAtk(int atk)
-    {
+    public void SetAtk (float atk) {
         _atk = atk;
     }
 
-    public int GetAtk()
-    {
+    public float GetAtk () {
         return _atk;
     }
 
-    public void Fire(Vector3 target)
-    {
-        this.transform.LookAt(target);
-        _target = new Vector3(target.x, _canonHeight, target.z);
+    public void Fire (Vector3 target) {
+        this.transform.LookAt (target);
+        _target = new Vector3 (target.x, _canonHeight, target.z);
         Vector3 cannonball = this.transform.position;
 
         /* 0.95為動畫效果的誤差修正參數，因砲彈發射高度比隱沒點高，故以此方法計算時砲彈隱沒點會比目標落點略遠 */
-        float distance = Vector3.Distance(this.transform.position, _target * 0.95f);
+        float distance = Vector3.Distance (this.transform.position, _target * 0.95f);
         float flyTime = distance / _speed;
         float riseTime = flyTime / 2;
         _verticalSpeed = G * riseTime;
@@ -60,12 +54,10 @@ public class CannonModel : MonoBehaviour
         _isFired = true;
     }
 
-    void Move()
-    {
+    void Move () {
         /*Arrived*/
-        if (this.transform.position.y < _target.y - 20)
-        {
-            this.gameObject.SetActive(false);
+        if (this.transform.position.y < _target.y - 20) {
+            this.gameObject.SetActive (false);
             this.transform.position = _oriPos;
             this.transform.rotation = _oriRot;
             return;
@@ -74,15 +66,14 @@ public class CannonModel : MonoBehaviour
         _timer += Time.deltaTime;
 
         float test = _verticalSpeed - G * _timer;
-        this.transform.Translate(this.transform.forward * Time.deltaTime * _speed, Space.World);
-        this.transform.Translate(this.transform.up * test * Time.deltaTime, Space.World);
+        this.transform.Translate (this.transform.forward * Time.deltaTime * _speed, Space.World);
+        this.transform.Translate (this.transform.up * test * Time.deltaTime, Space.World);
     }
 
-    private void OnDrawGizmos()
-    {
+    private void OnDrawGizmos () {
         Gizmos.color = Color.red;
         Vector3 from = this.transform.position;
         Vector3 to = from + this.transform.forward;
-        Gizmos.DrawLine(from, to);
+        Gizmos.DrawLine (from, to);
     }
 }

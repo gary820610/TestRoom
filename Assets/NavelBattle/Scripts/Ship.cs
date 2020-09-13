@@ -11,6 +11,7 @@ public class Ship : MonoBehaviour {
     bool _isStart;
     float _speed;
     float _armour;
+    float _cdTimer = 2;
     Vector3 _moveDir;
 
     LinkedList<CannonModel> _cannons;
@@ -22,6 +23,7 @@ public class Ship : MonoBehaviour {
 
     void Update () {
         if (!_isStart) return;
+        FireCD ();
         Move ();
     }
 
@@ -58,19 +60,17 @@ public class Ship : MonoBehaviour {
     }
 
     public void Fire (Vector3 target) {
+        Debug.Log ("CD ++++++ " + _cdTimer);
+        if (_cdTimer < 2) return;
         Vector3 nowPos = this.gameObject.transform.position;
-        // if (Vector3.Distance(nowPos, target) > _maxFireRange)
-        // {
-        //     target = target.normalized * _maxFireRange;
-        // }
         CannonModel cannonBall = cannonNumber.Value;
         Vector3 oriPos = this.transform.position;
         cannonBall.gameObject.transform.position = oriPos;
         cannonBall.gameObject.SetActive (true);
         cannonBall.Fire (target);
-        Debug.Log (target);
         if (cannonNumber.Next == null) cannonNumber = _cannons.First;
         cannonNumber = cannonNumber.Next;
+        _cdTimer = 0;
     }
 
     public void SetBorder (NaviMapData mapData) {
@@ -79,6 +79,10 @@ public class Ship : MonoBehaviour {
 
     public void StartMoving () {
         _isStart = true;
+    }
+
+    void FireCD () {
+        _cdTimer += Time.deltaTime;
     }
 
     void Move () {
@@ -142,7 +146,9 @@ public class Ship : MonoBehaviour {
         for (int i = 0; i < amount; i++) {
             GameObject instance = GameObject.Instantiate (cannonModel);
             instance.transform.position = this.gameObject.transform.position;
-            _cannons.AddFirst (instance.GetComponent<CannonModel> ());
+            CannonModel cannon = instance.GetComponent<CannonModel> ();
+            cannon.SetAtk (_shipData.cannonAtk);
+            _cannons.AddFirst (cannon);
             instance.gameObject.SetActive (false);
         }
         cannonNumber = _cannons.First;

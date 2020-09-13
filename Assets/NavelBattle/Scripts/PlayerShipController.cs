@@ -68,7 +68,6 @@ public class PlayerShipController : MonoBehaviour, IShipController {
 
     public void Fire (Vector3 target) {
         _myShip.Fire (target);
-        Debug.LogWarning ("FIRE!!!!!!!!");
     }
 
     void ShowEffect (Vector3 fingerPos) {
