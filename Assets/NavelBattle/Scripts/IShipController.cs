@@ -6,5 +6,4 @@ public interface IShipController
 {
     void Move();
     void Fire(Vector3 target);
-    void MeasureMapBorder();
 }

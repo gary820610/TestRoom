@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AssetsLoader
 {
-    static public GameObject LoadPrefab(string prefabName)
+    static public GameObject LoadPrefab(string prefabPath)
     {
-        string path = "Prefabs/" + prefabName;
+        string path = "Prefabs/" + prefabPath;
         GameObject go = Resources.Load<GameObject>(path);
         return go;
     }

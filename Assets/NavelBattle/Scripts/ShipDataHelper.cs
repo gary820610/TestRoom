@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-public static class ShipDataHelper
-{
-    public static ShipData GenerateDataTest(ShipType shipType)
-    {
-        ShipData shipData = new ShipData();
-        switch (shipType)
-        {
+public static class ShipDataHelper {
+    public static ShipGear GenerateDataTest (ShipType shipType) {
+        ShipGear shipData = new ShipGear ();
+        switch (shipType) {
             case ShipType.S:
                 shipData.maxArmour = 1000;
                 shipData.crewNum = 20;
@@ -61,29 +60,26 @@ public static class ShipDataHelper
         return shipData;
     }
 
-    public static ShipData GenerateData(string gearID)
-    {
-        ShipData shipData = new ShipData();
-
+    public static ShipGear CreateNewGear (string gearID) {
+        ShipGear shipData = new ShipGear ();
         return shipData;
     }
 
-    public static void AddGear(ref ShipData ship, ShipData gear)
-    {
-        ship.maxArmour += gear.maxArmour;
-        ship.maxSpeed += gear.maxSpeed;
-        ship.turningSpeed += gear.turningSpeed;
-        ship.acceleration += gear.acceleration;
-        ship.cannonAtk += gear.cannonAtk;
-        ship.cannonCapacity += gear.cannonCapacity;
-        ship.crewNum += gear.crewNum;
-        ship.morale += gear.morale;
-        ship.strikeAtk += gear.strikeAtk;
+    public static ShipData JsonToData (string json) {
+        ShipDataTransmit data = JsonConvert.DeserializeObject<ShipDataTransmit> (json);
+        return new ShipData (data);
+    }
+
+    public static string DataToJson (ShipData ship) {
+        ShipDataTransmit data = new ShipDataTransmit ();
+        data.UID = ship.UID;
+        data.Name = ship.ShipName;
+        data.Gears = ship.Gears.ToArray ();
+        return JsonConvert.SerializeObject (data);
     }
 }
 
-public enum ShipType
-{
+public enum ShipType {
     S,
     M,
     L,
