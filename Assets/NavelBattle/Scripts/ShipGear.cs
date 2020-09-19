@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipGear {
+public class ShipGear : IItem, IEnhanceable
+{
     [SerializeField]
     public int UID;
     [SerializeField]
@@ -31,4 +32,14 @@ public class ShipGear {
     public int cannonCapacity;
     [SerializeField]
     public int crewNum;
+
+    public int Rarity { get; set; }
+    public int Amount { get; set; }
+    public int Exp { get; set; }
+    public int Level { get; set; }
+
+    public void Enhance(IEnhancer enhancer)
+    {
+        throw new System.NotImplementedException();
+    }
 }
