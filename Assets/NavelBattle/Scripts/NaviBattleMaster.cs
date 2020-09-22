@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NaviBattleMaster : MonoBehaviour {
+
+    //public EnemyTest EnemyTest;
+
     void Start () {
         InitTest ();
     }
@@ -16,7 +19,13 @@ public class NaviBattleMaster : MonoBehaviour {
         playerShip.Init (data);
         shipModel.AddComponent<PlayerShipController> ();
 
-        ShowShipStats (playerShip);
+        //set tag
+        shipModel.tag = "Player";
+
+        //set collider
+        SetCollider(shipModel);
+
+        ShowShipStats(playerShip);
     }
 
     void ShowShipStats (Ship ship) {
@@ -34,4 +43,19 @@ public class NaviBattleMaster : MonoBehaviour {
         Debug.Log ("crewNum === " + data.crewNum);
     }
 
+    void SetCollider(GameObject ShipModel)
+    {
+        Collider ShipCollider;
+        Rigidbody ShipRigidbody;
+        //mesh collider?
+        ShipModel.AddComponent<CapsuleCollider>();
+        ShipModel.AddComponent<Rigidbody>();
+
+        ShipCollider = ShipModel.GetComponent<CapsuleCollider>();
+        ShipRigidbody = ShipModel.GetComponent<Rigidbody>();
+
+        ShipCollider.isTrigger = true;
+        ShipRigidbody.useGravity = false;
+        ShipRigidbody.isKinematic = true;
+    }
 }

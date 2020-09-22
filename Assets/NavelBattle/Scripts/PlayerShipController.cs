@@ -26,6 +26,7 @@ public class PlayerShipController : MonoBehaviour, IShipController {
     void Update () {
         FireCD ();
         Move ();
+
     }
 
     public void Move () {
@@ -83,5 +84,15 @@ public class PlayerShipController : MonoBehaviour, IShipController {
         fingerPos.y = _myShip.gameObject.transform.position.y;
         _pressEffect.gameObject.transform.position = fingerPos;
         _pressEffect.Play ();
+    }
+    
+    void OnTriggerEnter(Collider Other)
+    {
+        Debug.Log("HIIIITTTTTTT");
+    }
+    
+    void OnCollisionEnter(Collision Other)
+    {
+        Debug.Log("HIIIITTTTTTT2222");
     }
 }

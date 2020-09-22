@@ -43,6 +43,9 @@ public class Ship : MonoBehaviour {
         //測量戰場邊界
         MeasureMapBorder ();
 
+        //設定碰撞
+        //SetCollider();
+
         _isStart = true;
     }
 
@@ -144,6 +147,8 @@ public class Ship : MonoBehaviour {
             instance.gameObject.SetActive (false);
         }
         cannonNumber = _cannons.First;
+
+        cannonModel.AddComponent<CapsuleCollider>();
     }
 
     void OnTriggerEnter (Collider other) {
@@ -160,10 +165,11 @@ public class Ship : MonoBehaviour {
         }
     }
 
-    private void OnDrawGizmos () {
+    private void OnDrawGizmos()
+    {
         Gizmos.color = Color.red;
         Vector3 from = this.transform.position;
         Vector3 to = this.transform.position + (this.transform.forward * 10);
-        Gizmos.DrawLine (from, to);
+        Gizmos.DrawLine(from, to);
     }
 }
