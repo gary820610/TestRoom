@@ -21,17 +21,17 @@ public class NaviBattleMaster : MonoBehaviour {
 
     void ShowShipStats (Ship ship) {
         ShipGear data = ship.ShipData;
-        Debug.Log ("ShipID === " + data.UID);
-        Debug.Log ("name === " + data.name);
-        Debug.Log ("maxArmour === " + data.maxArmour);
-        Debug.Log ("maxSpeed === " + data.maxSpeed);
-        Debug.Log ("acceleration === " + data.acceleration);
-        Debug.Log ("cannonAtk === " + data.cannonAtk);
-        Debug.Log ("cannonCapacity === " + data.cannonCapacity);
-        Debug.Log ("turningSpeed === " + data.turningSpeed);
-        Debug.Log ("strikeAtk === " + data.strikeAtk);
-        Debug.Log ("cannonNum === " + data.cannonNum);
-        Debug.Log ("crewNum === " + data.crewNum);
+        Debug.Log ("ShipID === " + data.GearID);
+        Debug.Log ("name === " + data.Name);
+        Debug.Log ("maxArmour === " + data.MaxArmour);
+        Debug.Log ("maxSpeed === " + data.MaxSpeed);
+        Debug.Log ("acceleration === " + data.Acceleration);
+        Debug.Log ("cannonAtk === " + data.CannonAtk);
+        Debug.Log ("cannonCapacity === " + data.CannonCapacity);
+        Debug.Log ("turningSpeed === " + data.TurningSpeed);
+        Debug.Log ("strikeAtk === " + data.StrikeAtk);
+        Debug.Log ("cannonNum === " + data.CannonNum);
+        Debug.Log ("crewNum === " + data.CrewNum);
     }
 
 }

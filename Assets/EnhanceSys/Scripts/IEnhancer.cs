@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IEnhancer
 {
-    string EnhanceType { get; }
-    int SuccessRate { get; }
-    int Effect { get; }
+    EnhanceType EnhType { get; set; }
+    int EnhanceRate { get; set; }
+    int EffectID { get; set; }
 }

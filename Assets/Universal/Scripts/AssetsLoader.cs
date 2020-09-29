@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class AssetsLoader
@@ -9,5 +11,17 @@ public class AssetsLoader
         string path = "Prefabs/" + prefabPath;
         GameObject go = Resources.Load<GameObject>(path);
         return go;
+    }
+
+    static public void LoadDataTable<T>(T[] indexer, string jsonPath)
+    {
+        TextAsset table = Resources.Load<TextAsset>("TextAssets/" + jsonPath);
+        JArray array = (JArray)JsonConvert.DeserializeObject(table.text);
+        indexer = new T[array.Count];
+        for (int i = 0; i < array.Count; i++)
+        {
+            indexer[i] = JsonConvert.DeserializeObject<T>(array[i].ToString());
+            Debug.Log(indexer[i]);
+        }
     }
 }

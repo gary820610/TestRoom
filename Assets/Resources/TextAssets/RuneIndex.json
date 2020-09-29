@@ -1,0 +1,18 @@
+[
+    {
+        "ItemID": 100101,
+        "ItemType": 9,
+        "Rarity": 0,
+        "Name": "初級船桅符咒",
+        "EnhType": 100,
+        "EffectID": 900101
+    },
+    {
+        "ItemID": 100201,
+        "ItemType": 9,
+        "Rarity": 0,
+        "Name": "初級船帆符咒",
+        "EnhType": 100,
+        "EffectID": 900201
+    }
+]

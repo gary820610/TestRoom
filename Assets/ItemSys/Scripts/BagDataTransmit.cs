@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipDataTransmit
+public class BagDataTransmit
 {
-    public int UID { get; set; }
-    public string Name { get; set; }
+    public IItem[] Items { get; set; }
     public ShipGear[] Gears { get; set; }
+
 }

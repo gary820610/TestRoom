@@ -28,17 +28,17 @@ public class Ship : MonoBehaviour {
     public void Init (ShipData data) {
         //讀取船艦面板
         _shipData = data.State;
-        _shipData.UID = data.UID;
-        _shipData.name = data.ModelName;
+        _shipData.GearID = data.UID;
+        _shipData.Name = data.ModelName;
 
         //初始化船艦物理數值
         _speed = 0;
-        _armour = _shipData.maxArmour;
+        _armour = _shipData.MaxArmour;
         _moveDir = this.transform.forward;
 
         //初始化砲彈
         _cannons = new LinkedList<CannonModel> ();
-        LoadCannons (_shipData.cannonCapacity);
+        LoadCannons (_shipData.CannonCapacity);
 
         //測量戰場邊界
         MeasureMapBorder ();
@@ -83,21 +83,21 @@ public class Ship : MonoBehaviour {
         if (Vector3.Cross (this.transform.forward, _moveDir).y < 0) angle *= -1;
 
         if (Mathf.Abs (angle) > 5) {
-            this.transform.Rotate (0, Mathf.LerpAngle (0, _shipData.turningSpeed * Time.deltaTime, Time.time) * angle / Mathf.Abs (angle), 0);
+            this.transform.Rotate (0, Mathf.LerpAngle (0, _shipData.TurningSpeed * Time.deltaTime, Time.time) * angle / Mathf.Abs (angle), 0);
         } else if (Mathf.Abs (angle) > 1) {
-            this.transform.Rotate (0, Mathf.LerpAngle (_shipData.turningSpeed * Time.deltaTime, 0, Time.time) * angle / Mathf.Abs (angle), 0);
+            this.transform.Rotate (0, Mathf.LerpAngle (_shipData.TurningSpeed * Time.deltaTime, 0, Time.time) * angle / Mathf.Abs (angle), 0);
         }
 
         if (ReachBorder ()) {
             //停止時固定在1秒內停止
             _speed -= _speed * Time.deltaTime;
-            _speed = Mathf.Clamp (_speed, 0, _shipData.maxSpeed);
+            _speed = Mathf.Clamp (_speed, 0, _shipData.MaxSpeed);
             this.transform.Translate (this.transform.forward * _speed * Time.deltaTime, Space.World);
         } else {
             //起步時依照加速能力加速至極限速度
 
-            _speed += _shipData.acceleration * Time.deltaTime;
-            _speed = Mathf.Clamp (_speed, 0, _shipData.maxSpeed);
+            _speed += _shipData.Acceleration * Time.deltaTime;
+            _speed = Mathf.Clamp (_speed, 0, _shipData.MaxSpeed);
             this.transform.Translate (this.transform.forward * _speed * Time.deltaTime, Space.World);
         }
     }
@@ -139,7 +139,7 @@ public class Ship : MonoBehaviour {
             GameObject instance = GameObject.Instantiate (cannonModel);
             instance.transform.position = this.gameObject.transform.position;
             CannonModel cannon = instance.GetComponent<CannonModel> ();
-            cannon.SetAtk (_shipData.cannonAtk);
+            cannon.SetAtk (_shipData.CannonAtk);
             _cannons.AddFirst (cannon);
             instance.gameObject.SetActive (false);
         }

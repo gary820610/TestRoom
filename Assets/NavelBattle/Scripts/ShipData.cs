@@ -23,17 +23,17 @@ public class ShipData {
         _uid = data.UID;
         _shipName = data.Name;
         foreach (ShipGear gear in data.Gears) {
-            if (gear.model != "null") _shipModel = gear.model;
-            _myShipStat.maxArmour += gear.maxArmour;
-            _myShipStat.maxSpeed += gear.maxSpeed;
-            _myShipStat.turningSpeed += gear.turningSpeed;
-            _myShipStat.acceleration += gear.acceleration;
-            _myShipStat.cannonAtk += gear.cannonAtk;
-            _myShipStat.cannonCapacity += gear.cannonCapacity;
-            _myShipStat.cannonNum += gear.cannonNum;
-            _myShipStat.strikeAtk += gear.strikeAtk;
-            _myShipStat.morale += gear.morale;
-            _myShipStat.crewNum += gear.crewNum;
+            if (gear.Model != "null") _shipModel = gear.Model;
+            _myShipStat.MaxArmour += gear.MaxArmour;
+            _myShipStat.MaxSpeed += gear.MaxSpeed;
+            _myShipStat.TurningSpeed += gear.TurningSpeed;
+            _myShipStat.Acceleration += gear.Acceleration;
+            _myShipStat.CannonAtk += gear.CannonAtk;
+            _myShipStat.CannonCapacity += gear.CannonCapacity;
+            _myShipStat.CannonNum += gear.CannonNum;
+            _myShipStat.StrikeAtk += gear.StrikeAtk;
+            _myShipStat.Morale += gear.Morale;
+            _myShipStat.CrewNum += gear.CrewNum;
             _gears.Add (gear);
         }
     }
@@ -57,16 +57,16 @@ public class ShipData {
 
         _myShipStat = new ShipGear ();
         foreach (ShipGear gear in newGears) {
-            _myShipStat.maxArmour += gear.maxArmour;
-            _myShipStat.maxSpeed += gear.maxSpeed;
-            _myShipStat.turningSpeed += gear.turningSpeed;
-            _myShipStat.acceleration += gear.acceleration;
-            _myShipStat.cannonAtk += gear.cannonAtk;
-            _myShipStat.cannonCapacity += gear.cannonCapacity;
-            _myShipStat.cannonNum += gear.cannonNum;
-            _myShipStat.strikeAtk += gear.strikeAtk;
-            _myShipStat.morale += gear.morale;
-            _myShipStat.crewNum += gear.crewNum;
+            _myShipStat.MaxArmour += gear.MaxArmour;
+            _myShipStat.MaxSpeed += gear.MaxSpeed;
+            _myShipStat.TurningSpeed += gear.TurningSpeed;
+            _myShipStat.Acceleration += gear.Acceleration;
+            _myShipStat.CannonAtk += gear.CannonAtk;
+            _myShipStat.CannonCapacity += gear.CannonCapacity;
+            _myShipStat.CannonNum += gear.CannonNum;
+            _myShipStat.StrikeAtk += gear.StrikeAtk;
+            _myShipStat.Morale += gear.Morale;
+            _myShipStat.CrewNum += gear.CrewNum;
         }
     }
 }
