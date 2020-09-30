@@ -2,41 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Newtonsoft.Json;
 
 public class ShipGear : IItem, IEnhanceable
 {
-    public int ItemID { get; set; }
-    public int ItemType { get; set; }
-    public int Rarity { get; set; }
-    public int Amount { get { return this.Amount; } set { if (value > 0) { value = 1; }; } }
-    public string Name { get; set; }
-    public string Desc { get; set; }
-    public Texture2D ItemIcon { get; set; }
+    [JsonProperty]
+    public int ItemID { get; internal set; }
+    [JsonProperty]
+    public ItemType ItemType { get; internal set; }
+    [JsonProperty]
+    public int Rarity { get; internal set; }
+    [JsonProperty]
+    public int Amount { get => Amount; set => Mathf.Clamp01(value); }
+    [JsonProperty]
+    public string Name { get; internal set; }
+    [JsonProperty]
+    public string Desc { get; internal set; }
+    public Texture2D ItemIcon { get; internal set; }
 
-
-    public int Exp { get; set; }
-    public int Lv { get; set; }
-    public EnhanceType EnhType { get; set; }
-    public bool IsEnhanceable { get { if (this.Lv >= 10) return false; else return true; } }
+    [JsonProperty]
+    public int Exp { get; internal set; }
+    [JsonProperty]
+    public int Lv { get; internal set; }
+    [JsonProperty]
+    public EnhanceType EnhType { get; internal set; }
+    public bool IsEnhanceable { get => this.Lv >= 10 ? false : true; }
+    [JsonProperty]
+    public int EnhanceID { get; internal set; }
+    [JsonProperty]
+    public JadeEnhanceState JadeEnhStat {get; internal set;}
 
     /// <summary>
-    /// Don't use this property if this object is not an enhancer. Normal ship gear don't need and won't have this id.
+    /// A unique id of this particular gear.
     /// </summary>
-    /// <value></value>
-    public int EnhanceID { get; set; }
-
-    public int GearID { get; set; }
-    public string Model { get; set; }
-    public float MaxArmour { get; set; }
-    public float MaxSpeed { get; set; }
-    public float Acceleration { get; set; }
-    public float TurningSpeed { get; set; }
-    public float CannonAtk { get; set; }
-    public float StrikeAtk { get; set; }
-    public float Morale { get; set; }
-    public int CannonNum { get; set; }
-    public int CannonCapacity { get; set; }
-    public int CrewNum { get; set; }
+    [JsonProperty]
+    public int GearUID { get; internal set; }
+    [JsonProperty]
+    public string Model { get; internal set; }
+    [JsonProperty]
+    public float MaxArmour { get; internal set; }
+    [JsonProperty]
+    public float MaxSpeed { get; internal set; }
+    [JsonProperty]
+    public float Acceleration { get; internal set; }
+    [JsonProperty]
+    public float TurningSpeed { get; internal set; }
+    [JsonProperty]
+    public float CannonAtk { get; internal set; }
+    [JsonProperty]
+    public float StrikeAtk { get; internal set; }
+    [JsonProperty]
+    public float MaxMorale { get; internal set; }
+    [JsonProperty]
+    public int CannonNum { get; internal set; }
+    [JsonProperty]
+    public int CannonCapacity { get; internal set; }
+    [JsonProperty]
+    public int MaxCrewNum { get; internal set; }
 
 
     public void PlusGearProps(ShipGear gear)
@@ -48,20 +70,56 @@ public class ShipGear : IItem, IEnhanceable
         this.CannonAtk += gear.CannonAtk;
         this.StrikeAtk += gear.StrikeAtk;
         this.CannonCapacity += gear.CannonCapacity;
-        this.Morale += gear.Morale;
+        this.MaxMorale += gear.MaxMorale;
         this.CannonNum += gear.CannonNum;
-        this.CrewNum += gear.CrewNum;
+        this.MaxCrewNum += gear.MaxCrewNum;
     }
 
-    public void Enhance(IEnhancer enhancer)
+    public void EnhanceBy(IEnhancer enhancer)
     {
         if (enhancer.EnhType != EnhanceType.Jade)
         {
-            PlusGearProps(RuneEffectIndex.ShipRuneEffects.Where(rune => rune.EnhanceID == enhancer.EffectID).First());
+            PlusGearProps(EnhanceIndexer.GetShipRuneEff(enhancer.EffectID));
         }
         else
         {
-            PlusGearProps(JadeEffectIndex.SGJadeEffects.Where(effect => effect.EnhType == this.EnhType).Where(effect => effect.EnhanceID == enhancer.EffectID).First());
+            PlusGearProps(EnhanceIndexer.GetShipJadeEff(this.EnhType, enhancer.EffectID));
         }
+    }
+
+    public void LevelUp()
+    {
+        Lv++;
+    }
+
+    public void ResetExp()
+    {
+        Exp = 0;
+        JadeEnhStat = JadeEnhanceState.Free;
+    }
+
+    public void IncExp(int exp)
+    {
+        Exp += exp;
+    }
+
+    public void SetEnhState(JadeEnhanceState state)
+    {
+        JadeEnhStat = state;
+    }
+
+    public void Increase(int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Decrease(int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Init()
+    {
+        throw new System.NotImplementedException();
     }
 }

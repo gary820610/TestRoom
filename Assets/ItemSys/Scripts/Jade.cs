@@ -1,18 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+
 
 public class Jade : IItem, IEnhancer
 {
-    public int ItemID { get; set; }
-    public int ItemType { get; set; }
-    public int Rarity { get; set; }
+    [JsonProperty]
+    public int ItemID { get; internal set; }
+    [JsonProperty]
+    public ItemType ItemType { get; internal set; }
+    [JsonProperty]
+    public int Rarity { get; internal set; }
+    [JsonProperty]
     public int Amount { get; set; }
-    public string Name { get; set; }
-    public string Desc { get; set; }
-    public Texture2D ItemIcon { get; set; }
+    [JsonProperty]
+    public string Name { get; internal set; }
+    [JsonProperty]
+    public string Desc { get; internal set; }
+    public Texture2D ItemIcon { get; internal set; }
 
-    public EnhanceType EnhType { get { return (int)EnhanceType.Jade; } set { } }
-    public int EnhanceRate { get { return 100; } set { } }
-    public int EffectID { get { return Rarity * 100; } set { } }
+    public EnhanceType EnhType { get => (int)EnhanceType.Jade; }
+    public int EnhanceRate { get => 100; }
+    public int EffectID { get => Rarity * 100; }
+
+    public void Decrease(int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Increase(int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Init()
+    {
+        throw new System.NotImplementedException();
+    }
 }

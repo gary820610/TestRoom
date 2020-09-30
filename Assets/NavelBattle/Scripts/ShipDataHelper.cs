@@ -36,8 +36,8 @@ static public class ShipDataHelper
         gearA.CannonAtk += gearB.CannonAtk;
         gearA.StrikeAtk += gearB.StrikeAtk;
         gearA.CannonCapacity += gearB.CannonCapacity;
-        gearA.Morale += gearB.Morale;
+        gearA.MaxMorale += gearB.MaxMorale;
         gearA.CannonNum += gearB.CannonNum;
-        gearA.CrewNum += gearB.CrewNum;
+        gearA.MaxCrewNum += gearB.MaxCrewNum;
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
-using System.Linq;
 
 public class EnhanceMaster : MonoBehaviour
 {
@@ -12,9 +9,9 @@ public class EnhanceMaster : MonoBehaviour
 
     void Start()
     {
-        RuneIndex.Init();
-        RuneEffectIndex.Init();
-        JadeEffectIndex.Init();
+        ItemIndexer.Init();
+        EnhanceIndexer.Init();
+        
     }
 
     void Update()
@@ -50,7 +47,7 @@ public class EnhanceMaster : MonoBehaviour
             return;
         }
 
-        m_Gear.Lv++;
+        m_Gear.LevelUp();
 
         if (!RollDice(m_Enhancer.EnhanceRate))
         {
@@ -58,7 +55,7 @@ public class EnhanceMaster : MonoBehaviour
             return;
         }
 
-        m_Gear.Enhance(m_Enhancer);
+        m_Gear.EnhanceBy(m_Enhancer);
     }
 
     public void EnhanceByJade()
@@ -69,13 +66,14 @@ public class EnhanceMaster : MonoBehaviour
             return;
         }
 
-        m_Gear.Exp += EnhSysSettings.BaseJadeExp * ((Jade)m_Enhancer).Rarity;
+        m_Gear.IncExp(EnhSysSettings.BaseJadeExp * ((Jade)m_Enhancer).Rarity);
+        m_Gear.SetEnhState((JadeEnhanceState)((Jade)m_Enhancer).Rarity);
 
         if (m_Gear.Exp > Mathf.Pow(EnhSysSettings.LvUpExpRatio, m_Gear.Lv) * EnhSysSettings.LvUpExpRatio)
         {
-            m_Gear.Exp = 0;
-            m_Gear.Lv++;
-            m_Gear.Enhance(m_Enhancer);
+            m_Gear.LevelUp();
+            m_Gear.ResetExp();
+            m_Gear.EnhanceBy(m_Enhancer);            
         }
     }
 
@@ -93,6 +91,5 @@ public class EnhanceMaster : MonoBehaviour
             return false;
         }
         else return true;
-    }
-
+    }    
 }

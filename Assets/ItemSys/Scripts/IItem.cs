@@ -4,11 +4,31 @@ using UnityEngine;
 
 public interface IItem
 {
-    int ItemID { get; set; }
-    int ItemType { get; set; }
-    int Rarity { get; set; }
-    int Amount { get; set; }
-    string Name { get; set; }
-    string Desc { get; set; }
-    Texture2D ItemIcon { get; set; }
+    /// <summary>
+    /// This identify number of a particular KIND of item.
+    /// </summary>
+    int ItemID { get; }
+
+    /// <summary>
+    /// Define the item-family(gear, enhancer, or other) which this item belongs.
+    /// </summary>
+    ItemType ItemType { get; }
+
+    int Rarity { get; }
+
+    int Amount { get;}
+
+    string Name { get; }
+
+    /// <summary>
+    /// The text description of this item.
+    /// </summary>
+    string Desc { get; }
+
+    Texture2D ItemIcon { get; }
+
+    void Init();
+    void Increase(int amount);
+    void Decrease(int amount);
+
 }
