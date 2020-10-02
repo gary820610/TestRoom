@@ -122,7 +122,7 @@ public class PlayerShipController : MonoBehaviour, IShipController {
 
             if (isHit)
             {
-                //print(hit.transform.name);
+                print("Player hit Enemy");
                 PauseGame();
             }
         }
