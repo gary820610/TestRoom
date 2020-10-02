@@ -9,24 +9,39 @@ public class PlayerShipController : MonoBehaviour, IShipController {
     Vector3 _oriFingerPos;
     Vector3 _endFingerPos;
     Vector3 _fingerPosWorld;
+    CannonModel EnemyCannon;
 
     int _timer = 0;
     float _cdTimer = 2;
     int _maxFirePressTime = 300;
     float _minMoveSlideLength = 100;
 
+    public GUIStyle HUDSkin;
+
+    GameObject HP;
+    GameObject HPBar;
+    public Vector3 FaceToCameraDirection;
+    float hpPersentage;
+    float maxArmour;
+    
+
+
     void Start () {
         _myShip = this.gameObject.GetComponent<Ship> ();
 
         GameObject pressFX = GameObject.Instantiate (AssetsLoader.LoadPrefab ("PressEffect"));
         _pressEffect = pressFX.GetComponent<ParticleSystem> ();
-    }
+
+        SetHPBar();
+
+        maxArmour = _myShip.OnGetArmour();
+}  
 
     // Update is called once per frame
     void Update () {
         FireCD ();
         Move ();
-
+        SetHPBarPosition();
     }
 
     public void Move () {
@@ -57,11 +72,12 @@ public class PlayerShipController : MonoBehaviour, IShipController {
                 } else if (_timer < _maxFirePressTime) {
                     ray = Camera.main.ScreenPointToRay (_endFingerPos);
                     Physics.Raycast (ray, out hit, 1000);
-                    if (hit.collider.gameObject.layer != LayerMask.NameToLayer ("Water")) {
+                    /*if (hit.collider.gameObject.layer != LayerMask.NameToLayer ("Water")) {
                         Debug.Log ("Not a water");
                     } else {
                         Fire (hit.point);
-                    }
+                    }*/
+                    Fire(hit.point);
                 }
                 _timer = 0;
                 break;
@@ -72,7 +88,7 @@ public class PlayerShipController : MonoBehaviour, IShipController {
         Debug.Log ("CD ++++++ " + _cdTimer);
         if (_cdTimer < 2) return;
         ShowEffect (target);
-        _myShip.Fire (target);
+        _myShip.Fire (target, "PlayerCannon");
         _cdTimer = 0;
     }
 
@@ -88,11 +104,67 @@ public class PlayerShipController : MonoBehaviour, IShipController {
     
     void OnTriggerEnter(Collider Other)
     {
-        Debug.Log("HIIIITTTTTTT");
+
+        if (Other.tag == "EnemyCannon")
+        {
+            EnemyCannon = GameObject.FindWithTag("EnemyCannon").GetComponent<CannonModel>();
+            OnHit(EnemyCannon);
+        }
     }
-    
-    void OnCollisionEnter(Collision Other)
+
+    void OnTriggerStay(Collider Other)
     {
-        Debug.Log("HIIIITTTTTTT2222");
+        if (Other.tag == "Enemy")
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(this.transform.position, this.transform.forward);
+            bool isHit = Physics.Raycast(ray, out hit, 1f, 1 << 0, QueryTriggerInteraction.Collide);
+
+            if (isHit)
+            {
+                //print(hit.transform.name);
+                PauseGame();
+            }
+        }
     }
+
+
+    void OnHit(CannonModel Cannon)
+    {
+        _myShip.OnSetArmour(_myShip.OnGetArmour()- Cannon.GetAtk());
+        //Debug.Log("_myShip.OnGetArmour()1 : " + _myShip.OnGetArmour());
+        //Debug.Log("Cannon.GetAtk()1 : " + Cannon.GetAtk());
+
+        if (_myShip.OnGetArmour()<0)
+            _myShip.OnSetArmour(0);
+
+        hpPersentage = (_myShip.OnGetArmour() / maxArmour);
+        HP.transform.localScale = new Vector3(hpPersentage, 1, 1);
+
+        if (_myShip.OnGetArmour()<=0)
+            PauseGame();
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    void SetHPBarPosition()
+    {
+        HPBar.transform.rotation = Quaternion.LookRotation(FaceToCameraDirection);
+        HPBar.transform.position = this.transform.position + new Vector3(0, 0, -1);
+    }
+
+    void SetHPBar()
+    {
+        HPBar = GameObject.Instantiate(GameObject.Find("HPBar"));
+        HP = HPBar.transform.Find("HP").gameObject;
+
+        HPBar.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+        FaceToCameraDirection = this.transform.position - GameObject.FindWithTag("MainCamera").transform.position;
+        HPBar.transform.rotation = Quaternion.LookRotation(FaceToCameraDirection);
+    }
+
+
 }

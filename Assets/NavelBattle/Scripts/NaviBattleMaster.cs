@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class NaviBattleMaster : MonoBehaviour {
 
-    //public EnemyTest EnemyTest;
-
-    void Start () {
-        InitTest ();
+    void Start() {
+        InitTest();
     }
 
-    void InitTest () {
-        TextAsset jsonData = Resources.Load<TextAsset> ("TextAssets/ShipDataSample");
-        ShipData data = ShipDataHelper.JsonToData (jsonData.text);
+    void InitTest() {
+        TextAsset jsonData = Resources.Load<TextAsset>("TextAssets/ShipDataSample");
+        ShipData data = ShipDataHelper.JsonToData(jsonData.text);
         string modelPath = "Ships/" + data.ModelName;
-        GameObject shipModel = GameObject.Instantiate (AssetsLoader.LoadPrefab (modelPath), this.transform);
-        Ship playerShip = shipModel.AddComponent<Ship> ();
-        playerShip.Init (data);
-        shipModel.AddComponent<PlayerShipController> ();
+        GameObject shipModel = GameObject.Instantiate(AssetsLoader.LoadPrefab(modelPath), this.transform);
+        Ship playerShip = shipModel.AddComponent<Ship>();
+        playerShip.Init(data);
+        shipModel.AddComponent<PlayerShipController>();
 
         //set tag
         shipModel.tag = "Player";
@@ -26,6 +24,7 @@ public class NaviBattleMaster : MonoBehaviour {
         SetCollider(shipModel);
 
         ShowShipStats(playerShip);
+
     }
 
     void ShowShipStats (Ship ship) {

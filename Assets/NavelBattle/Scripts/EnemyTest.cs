@@ -29,6 +29,9 @@ public class EnemyTest : MonoBehaviour
         EnemyShipModel.AddComponent<EnemyShipController>();
 
 
+        //set tag
+        EnemyShipModel.tag = "Enemy";
+
         SetCollider(EnemyShipModel);
         //ShowShipStats(EnemyShip);
     }
