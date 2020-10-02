@@ -9,7 +9,7 @@ public class ItemIndexer
     static List<Rune> _protoRunes;
     static public void Init()
     {
-        _protoRunes = AssetsLoader.LoadDataTable<Rune>("RuneIndex").ToList();
+        _protoRunes = AssetsLoader.LoadTable<Rune>("RuneIndex").ToList();
     }
 
     static public IItem GetItemData(int itemID)

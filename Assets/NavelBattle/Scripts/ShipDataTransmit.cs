@@ -6,5 +6,5 @@ public class ShipDataTransmit
 {
     public int UID { get; set; }
     public string Name { get; set; }
-    public ShipGear[] Gears { get; set; }
+    public int[] GearUIDs { get; set; }
 }

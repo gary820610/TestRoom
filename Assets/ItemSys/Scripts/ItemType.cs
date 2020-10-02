@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum ItemType
 {
-    Countable = 1,
-    Uncountable = 2,
-
+    ShipGear = 1,
+    Rune = 2,
+    Jade = 11,
     Other = 0
 }

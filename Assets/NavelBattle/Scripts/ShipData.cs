@@ -4,55 +4,32 @@ using UnityEngine;
 
 public class ShipData
 {
-    public int UID { get => _uid; }
-    public string ShipName { get => _shipName; }
-    public string ModelName { get => _shipModel; }
-    public ShipGear State { get => _myShipStat; }
-    public List<ShipGear> Gears { get => _gears; }
+    public int UID { get; internal set; }
+    public string ShipName { get; internal set; }
+    public string ModelName { get; internal set; }
+    public ShipGear State { get; internal set; }
+    public List<ShipGear> Gears { get; internal set; }
 
-    int _uid;
-    string _shipName;
-    string _shipType;
-    string _shipModel;
-    ShipGear _myShipStat;
-    List<ShipGear> _gears;
-
-    public ShipData(ShipDataTransmit data)
+    public ShipData(ShipDataTransmit dataTransmit, List<ShipGear> gears)
     {
-        _myShipStat = new ShipGear();
-        _gears = new List<ShipGear>();
-
-        _uid = data.UID;
-        _shipName = data.Name;
-        foreach (ShipGear gear in data.Gears)
-        {
-            if (gear.Model != "null") _shipModel = gear.Model;
-            _myShipStat.MaxArmour += gear.MaxArmour;
-            _myShipStat.MaxSpeed += gear.MaxSpeed;
-            _myShipStat.TurningSpeed += gear.TurningSpeed;
-            _myShipStat.Acceleration += gear.Acceleration;
-            _myShipStat.CannonAtk += gear.CannonAtk;
-            _myShipStat.CannonCapacity += gear.CannonCapacity;
-            _myShipStat.CannonNum += gear.CannonNum;
-            _myShipStat.StrikeAtk += gear.StrikeAtk;
-            _myShipStat.MaxMorale += gear.MaxMorale;
-            _myShipStat.MaxCrewNum += gear.MaxCrewNum;
-            _gears.Add(gear);
-        }
+        State = new ShipGear();
+        Gears = gears;
+        UID = dataTransmit.UID;
+        ShipName = dataTransmit.Name;
     }
 
     public void ModifyGears(List<ShipGear> gears)
     {
-        _gears = gears;
-        RefreshData(_gears);
+        Gears = gears;
+        RefreshData(Gears);
     }
 
     public bool AddGear(ShipGear gear)
     {
-        if (_gears.Count >= 10) return false;
+        if (Gears.Count >= 10) return false;
         else
         {
-            _gears.Add(gear);
+            Gears.Add(gear);
             return true;
         }
     }
@@ -60,21 +37,21 @@ public class ShipData
     void RefreshData(IEnumerable<ShipGear> newGears)
     {
         /*釋放記憶體? 不確定是否多餘*/
-        _myShipStat = null;
+        State = null;
 
-        _myShipStat = new ShipGear();
+        State = new ShipGear();
         foreach (ShipGear gear in newGears)
         {
-            _myShipStat.MaxArmour += gear.MaxArmour;
-            _myShipStat.MaxSpeed += gear.MaxSpeed;
-            _myShipStat.TurningSpeed += gear.TurningSpeed;
-            _myShipStat.Acceleration += gear.Acceleration;
-            _myShipStat.CannonAtk += gear.CannonAtk;
-            _myShipStat.CannonCapacity += gear.CannonCapacity;
-            _myShipStat.CannonNum += gear.CannonNum;
-            _myShipStat.StrikeAtk += gear.StrikeAtk;
-            _myShipStat.MaxMorale += gear.MaxMorale;
-            _myShipStat.MaxCrewNum += gear.MaxCrewNum;
+            State.MaxArmour += gear.MaxArmour;
+            State.MaxSpeed += gear.MaxSpeed;
+            State.TurningSpeed += gear.TurningSpeed;
+            State.Acceleration += gear.Acceleration;
+            State.CannonAtk += gear.CannonAtk;
+            State.CannonCapacity += gear.CannonCapacity;
+            State.CannonNum += gear.CannonNum;
+            State.StrikeAtk += gear.StrikeAtk;
+            State.MaxMorale += gear.MaxMorale;
+            State.MaxCrewNum += gear.MaxCrewNum;
         }
     }
 }

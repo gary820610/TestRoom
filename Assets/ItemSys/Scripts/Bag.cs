@@ -6,38 +6,60 @@ using Newtonsoft.Json;
 
 public class Bag
 {
-    public ShipGear[] MyShipGears { get; set; }
-    public Rune[] MyRunes { get; set; }
-    public IItem[] Others { get; set; }
+    public List<IItem> MyItems { get; internal set; }
+    public List<ShipGear> MyShipGears { get; internal set; }
+    public List<Rune> MyRunes { get; internal set; }
+    public List<Jade> MyJades { get; internal set; }
 
-    List<IItem> MyItems { get; set; }
+    [JsonProperty]
+    ShipGear[] _shipGearsData;
+    [JsonProperty]
+    Rune[] _runesData;
+    [JsonProperty]
+    Jade[] _jadesData;
+
+    public void Init()
+    {
+        this.MyShipGears = _shipGearsData.ToList();
+        this.MyRunes = _runesData.ToList();
+        this.MyJades = _jadesData.ToList();
+        MyItems.AddRange(MyShipGears);
+        MyItems.AddRange(MyRunes);
+        MyItems.AddRange(MyJades);
+    }
 
     public void AddItem(int itemID, int amount)
     {
         IItem item = MyItems.Find(i => i.ItemID == itemID);
 
-        switch (item.ItemType)
+        if ((int)item.ItemType < 10)
         {
-            case ItemType.Uncountable:
-                item.Init();
-                MyItems.Add(item);
-                break;
-            case ItemType.Countable:
-                if (item is null)
-                {
-                    item = ItemIndexer.GetItemData(itemID);
-                    item.Increase(amount);
-                    MyItems.Add(item);
-                }
-                else
-                {
-                    item.Increase(amount);
-                }
-                break;
-
+            item.Init();
+            MyItems.Add(item);
         }
+        else
+        {
+            if (item is null)
+            {
+                item = ItemIndexer.GetItemData(itemID);
+                item.Increase(amount);
+                MyItems.Add(item);
+            }
+            else
+            {
+                item.Increase(amount);
+            }
+        }
+    }
 
+    public IItem GetItem(int itemID)
+    {
+        return MyItems.Find(i => i.ItemID == itemID);
+    }
 
+    public ShipGear GetShipGear(int gearUID)
+    {
+        return MyShipGears.Find(g => g.GearUID == gearUID);
     }
 }
 

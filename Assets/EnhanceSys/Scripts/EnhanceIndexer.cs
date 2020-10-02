@@ -10,8 +10,8 @@ public class EnhanceIndexer
 
     static public void Init()
     {
-        _shipRuneEffects = AssetsLoader.LoadDataTable<ShipGear>("RuneEffectIndex").ToList();
-        _jadeEffectsSG = AssetsLoader.LoadDataTable<ShipGear>("SGJadeEffects").ToList();
+        _shipRuneEffects = AssetsLoader.LoadTable<ShipGear>("RuneEffectIndex").ToList();
+        _jadeEffectsSG = AssetsLoader.LoadTable<ShipGear>("SGJadeEffects").ToList();
     }
 
     static public ShipGear GetShipRuneEff(int effectID)

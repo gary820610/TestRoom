@@ -13,7 +13,7 @@ public class AssetsLoader
         return go;
     }
 
-    static public T[] LoadDataTable<T>(string jsonPath)
+    static public T[] LoadTable<T>(string jsonPath)
     {
         TextAsset table = Resources.Load<TextAsset>("TextAssets/" + jsonPath);
         JArray array = (JArray)JsonConvert.DeserializeObject(table.text);
@@ -24,5 +24,24 @@ public class AssetsLoader
             Debug.Log(indexer[i]);
         }
         return indexer;
+    }
+
+    static public T LoadData<T>(string jsonPath)
+    {
+        TextAsset data = Resources.Load<TextAsset>("TextAssets/" + jsonPath);
+        T obj = JsonConvert.DeserializeObject<T>(data.text);
+        return obj;
+    }
+
+    static public T[] DeserializeJsonArr<T>(string json)
+    {
+        JArray array = (JArray)JsonConvert.DeserializeObject(json);
+        T[] objs = new T[array.Count];
+        for (int i = 0; i < array.Count; i++)
+        {
+            objs[i] = JsonConvert.DeserializeObject<T>(array[i].ToString());
+            Debug.Log(objs[i]);
+        }
+        return objs;
     }
 }
