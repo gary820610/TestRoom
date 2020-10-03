@@ -1,21 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
+using System.Linq;
 
 public class ShipData
 {
-    public int UID { get; internal set; }
+    [JsonProperty]
+    public string GUID { get; internal set; }
+    [JsonProperty]
     public string ShipName { get; internal set; }
+    [JsonProperty]
     public string ModelName { get; internal set; }
+    [JsonProperty]
     public ShipGear State { get; internal set; }
     public List<ShipGear> Gears { get; internal set; }
 
-    public ShipData(ShipDataTransmit dataTransmit, List<ShipGear> gears)
+    public ShipData()
     {
-        State = new ShipGear();
+        GUID = System.Guid.NewGuid().ToString();
+        ShipName = "新船艦";
+        ModelName = "default_ship";
+    }
+
+    public void DataInit(ShipDataTransmit dataTransmit, List<ShipGear> gears)
+    {
         Gears = gears;
-        UID = dataTransmit.UID;
+        GUID = dataTransmit.GUID;
         ShipName = dataTransmit.Name;
+        ModelName = gears.Where(g => g.EnhType == EnhanceType.ShipBody).ToArray()[0].Model;
+        RefreshData(Gears);
     }
 
     public void ModifyGears(List<ShipGear> gears)
@@ -48,7 +62,7 @@ public class ShipData
             State.Acceleration += gear.Acceleration;
             State.CannonAtk += gear.CannonAtk;
             State.CannonCapacity += gear.CannonCapacity;
-            State.CannonNum += gear.CannonNum;
+            State.WeaponNum += gear.WeaponNum;
             State.StrikeAtk += gear.StrikeAtk;
             State.MaxMorale += gear.MaxMorale;
             State.MaxCrewNum += gear.MaxCrewNum;

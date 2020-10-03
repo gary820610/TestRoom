@@ -32,7 +32,7 @@ public class Ship : MonoBehaviour
     {
         //讀取船艦面板
         _shipData = data.State;
-        _shipData.GearUID = data.UID;
+        _shipData.GearUID = data.GUID;
         _shipData.Name = data.ModelName;
 
         //初始化船艦物理數值
@@ -173,36 +173,8 @@ public class Ship : MonoBehaviour
             instance.gameObject.SetActive(false);
         }
         cannonNumber = _cannons.First;
+    }
 
-        //cannonModel.AddComponent<CapsuleCollider>();
-        //set tag
-        /*
-        if (this.tag== "Player")
-        {
-            cannonModel.tag = "PlayerCannon";
-            Debug.Log("PlayerCannon!!!");
-        }
-        else if (this.tag == "Enemy")
-        {
-            cannonModel.tag = "EnemyCannon";
-            Debug.Log("EnemyCannon!!!");
-        }*/
-    }
-    /*
-    void OnTriggerEnter (Collider other) {
-        switch (other.name) {
-            case "cannon":
-                Debug.Log("Get hit by a cannon!!!");
-                break;
-            case "shipBody":
-                Debug.Log("Hit enemy ship!!!");
-                break;
-            case "shipHead":
-                Debug.Log("Get hit by enemy ship!!!");
-                break;
-        }
-    }
-    */
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

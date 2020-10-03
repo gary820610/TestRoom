@@ -12,17 +12,18 @@ public class Bag
     public List<Jade> MyJades { get; internal set; }
 
     [JsonProperty]
-    ShipGear[] _shipGearsData;
+    ShipGear[] ShipGearsData { get; set; }
     [JsonProperty]
-    Rune[] _runesData;
+    Rune[] RunesData { get; set; }
     [JsonProperty]
-    Jade[] _jadesData;
+    Jade[] JadesData { get; set; }
 
     public void Init()
     {
-        this.MyShipGears = _shipGearsData.ToList();
-        this.MyRunes = _runesData.ToList();
-        this.MyJades = _jadesData.ToList();
+        MyItems = new List<IItem>();
+        this.MyShipGears = ShipGearsData.ToList();
+        this.MyRunes = RunesData.ToList();
+        this.MyJades = JadesData.ToList();
         MyItems.AddRange(MyShipGears);
         MyItems.AddRange(MyRunes);
         MyItems.AddRange(MyJades);
@@ -57,7 +58,7 @@ public class Bag
         return MyItems.Find(i => i.ItemID == itemID);
     }
 
-    public ShipGear GetShipGear(int gearUID)
+    public ShipGear GetShipGear(string gearUID)
     {
         return MyShipGears.Find(g => g.GearUID == gearUID);
     }

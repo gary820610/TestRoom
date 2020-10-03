@@ -14,7 +14,7 @@ public class NaviBattleMaster : MonoBehaviour
 
     public void InitScene(UserData player)
     {
-        ShipData data = ShipDataHelper.DeserializeShipData(player.MyBag, player.MyShips[0]);
+        ShipData data = player.MyShips[0];
         string modelPath = "Ships/" + data.ModelName;
         GameObject shipModel = GameObject.Instantiate(AssetsLoader.LoadPrefab(modelPath), this.transform);
         Ship playerShip = shipModel.AddComponent<Ship>();
@@ -43,7 +43,7 @@ public class NaviBattleMaster : MonoBehaviour
         Debug.Log("cannonCapacity === " + data.CannonCapacity);
         Debug.Log("turningSpeed === " + data.TurningSpeed);
         Debug.Log("strikeAtk === " + data.StrikeAtk);
-        Debug.Log("cannonNum === " + data.CannonNum);
+        Debug.Log("cannonNum === " + data.WeaponNum);
         Debug.Log("crewNum === " + data.MaxCrewNum);
     }
 

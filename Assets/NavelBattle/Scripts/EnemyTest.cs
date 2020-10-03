@@ -24,7 +24,7 @@ public class EnemyTest : MonoBehaviour
         Ship EnemyShip = EnemyShipModel.AddComponent<Ship>();
 
         EnemyShip.Init(EnemyData);
-        EnemyShip.ShipData.cannonNum = 1000;
+        EnemyShip.ShipData.WeaponNum = 1000;
 
         EnemyShipModel.AddComponent<EnemyShipController>();
 
