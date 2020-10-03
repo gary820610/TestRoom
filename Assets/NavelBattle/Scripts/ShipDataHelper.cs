@@ -6,14 +6,21 @@ using UnityEngine;
 
 static public class ShipDataHelper
 {
+    static public ShipData JsonToData(string json)
+    {
+        return JsonConvert.DeserializeObject<ShipData>(json);
+    }
+
     static public ShipData DeserializeShipData(Bag bag, ShipDataTransmit data)
     {
         List<ShipGear> gears = new List<ShipGear>();
-        foreach (int gearUID in data.GearUIDs)
+        foreach (string gearUID in data.GearUIDs)
         {
             gears.Add(bag.GetShipGear(gearUID));
         }
-        return new ShipData(data, gears);
+        ShipData ship = new ShipData();
+        ship.DataInit(data, gears);
+        return ship;
     }
 
     static public void PlusGearStates(ref ShipGear gearA, ShipGear gearB)
@@ -26,7 +33,7 @@ static public class ShipDataHelper
         gearA.StrikeAtk += gearB.StrikeAtk;
         gearA.CannonCapacity += gearB.CannonCapacity;
         gearA.MaxMorale += gearB.MaxMorale;
-        gearA.CannonNum += gearB.CannonNum;
+        gearA.WeaponNum += gearB.WeaponNum;
         gearA.MaxCrewNum += gearB.MaxCrewNum;
     }
 }

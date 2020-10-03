@@ -12,6 +12,9 @@ public interface IEnhanceable
 
     int Exp { get; }
 
+    /// <summary>
+    /// From 0 to 9.
+    /// </summary>
     int Lv { get; }
 
     bool IsEnhanceable { get; }

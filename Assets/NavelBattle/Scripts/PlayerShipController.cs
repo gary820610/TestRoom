@@ -27,21 +27,24 @@ public class PlayerShipController : MonoBehaviour, IShipController
 
 
 
-    void Start () {
-        _myShip = this.gameObject.GetComponent<Ship> ();
+    void Start()
+    {
+        _myShip = this.gameObject.GetComponent<Ship>();
 
-        GameObject pressFX = GameObject.Instantiate (AssetsLoader.LoadPrefab ("PressEffect"));
-        _pressEffect = pressFX.GetComponent<ParticleSystem> ();
+        GameObject pressFX = GameObject.Instantiate(AssetsLoader.LoadPrefab("PressEffect"));
+        _pressEffect = pressFX.GetComponent<ParticleSystem>();
 
         SetHPBar();
 
         maxArmour = _myShip.OnGetArmour();
-}
+        Debug.Log("!!!!!!!!!!!!!maxArmour =====" + maxArmour);
+    }
 
     // Update is called once per frame
-    void Update () {
-        FireCD ();
-        Move ();
+    void Update()
+    {
+        FireCD();
+        Move();
         SetHPBarPosition();
     }
 
@@ -74,11 +77,13 @@ public class PlayerShipController : MonoBehaviour, IShipController
                     _oriFingerPos = Camera.main.ScreenToWorldPoint(_oriFingerPos);
                     _endFingerPos = Camera.main.ScreenToWorldPoint(_endFingerPos);
                     var forwardVec = (_endFingerPos - _oriFingerPos).normalized;
-                    _myShip.MoveTo (forwardVec);
-                    _myShip.StartMoving ();
-                } else if (_timer < _maxFirePressTime) {
-                    ray = Camera.main.ScreenPointToRay (_endFingerPos);
-                    Physics.Raycast (ray, out hit, 1000);
+                    _myShip.MoveTo(forwardVec);
+                    _myShip.StartMoving();
+                }
+                else if (_timer < _maxFirePressTime)
+                {
+                    ray = Camera.main.ScreenPointToRay(_endFingerPos);
+                    Physics.Raycast(ray, out hit, 1000);
                     /*if (hit.collider.gameObject.layer != LayerMask.NameToLayer ("Water")) {
                         Debug.Log ("Not a water");
                     } else {
@@ -95,8 +100,8 @@ public class PlayerShipController : MonoBehaviour, IShipController
     {
         Debug.Log("CD ++++++ " + _cdTimer);
         if (_cdTimer < 2) return;
-        ShowEffect (target);
-        _myShip.Fire (target, "PlayerCannon");
+        ShowEffect(target);
+        _myShip.Fire(target, "PlayerCannon");
         _cdTimer = 0;
     }
 
@@ -141,17 +146,17 @@ public class PlayerShipController : MonoBehaviour, IShipController
 
     void OnHit(CannonModel Cannon)
     {
-        _myShip.OnSetArmour(_myShip.OnGetArmour()- Cannon.GetAtk());
+        _myShip.OnSetArmour(_myShip.OnGetArmour() - Cannon.GetAtk());
         //Debug.Log("_myShip.OnGetArmour()1 : " + _myShip.OnGetArmour());
         //Debug.Log("Cannon.GetAtk()1 : " + Cannon.GetAtk());
 
-        if (_myShip.OnGetArmour()<0)
+        if (_myShip.OnGetArmour() < 0)
             _myShip.OnSetArmour(0);
 
         hpPersentage = (_myShip.OnGetArmour() / maxArmour);
         HP.transform.localScale = new Vector3(hpPersentage, 1, 1);
 
-        if (_myShip.OnGetArmour()<=0)
+        if (_myShip.OnGetArmour() <= 0)
             PauseGame();
     }
 

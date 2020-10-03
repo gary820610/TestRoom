@@ -30,13 +30,13 @@ public class ShipGear : IItem, IEnhanceable
     [JsonProperty]
     public int EnhanceID { get; internal set; }
     [JsonProperty]
-    public JadeEnhanceState JadeEnhStat {get; internal set;}
+    public JadeEnhanceState JadeEnhStat { get; internal set; }
 
     /// <summary>
     /// A unique id of this particular gear.
     /// </summary>
     [JsonProperty]
-    public int GearUID { get; internal set; }
+    public string GearUID { get; internal set; }
     [JsonProperty]
     public string Model { get; internal set; }
     [JsonProperty]
@@ -54,7 +54,7 @@ public class ShipGear : IItem, IEnhanceable
     [JsonProperty]
     public float MaxMorale { get; internal set; }
     [JsonProperty]
-    public int CannonNum { get; internal set; }
+    public int WeaponNum { get; internal set; }
     [JsonProperty]
     public int CannonCapacity { get; internal set; }
     [JsonProperty]
@@ -71,7 +71,7 @@ public class ShipGear : IItem, IEnhanceable
         this.StrikeAtk += gear.StrikeAtk;
         this.CannonCapacity += gear.CannonCapacity;
         this.MaxMorale += gear.MaxMorale;
-        this.CannonNum += gear.CannonNum;
+        this.WeaponNum += gear.WeaponNum;
         this.MaxCrewNum += gear.MaxCrewNum;
     }
 

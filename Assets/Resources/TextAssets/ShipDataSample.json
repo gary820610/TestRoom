@@ -1,76 +1,17 @@
 {
-    "UID": 100001,
-    "Name": "MyShip",
-    "Gears": [
-        {
-            "ItemID": 100001,
-            "ItemType": 2,
-            "Rarity": 0,
-            "Name": "輕型船體",
-            "Desc": "",
-            "GearID": 111111,
-            "GearType": "G01",
-            "Model": "A1",
-            "MaxArmour": 1000,
-            "Morale": 100,
-            "CannonNum": 1,
-            "CannonCapacity": 10,
-            "CrewNum": 20
-        },
-        {
-            "ItemID": 100002,
-            "ItemType": 2,
-            "Rarity": 0,
-            "Name": "劣質船首",
-            "Desc": "",
-            "GearID": 222222,
-            "GearType": "G02",
-            "Model": "null",
-            "StrikeAtk": 10
-        },
-        {
-            "ItemID": 100003,
-            "ItemType": 2,
-            "Rarity": 0,
-            "Name": "劣質船桅",
-            "Desc": "",
-            "GearID": 333333,
-            "GearType": "G03",
-            "Model": "null",
-            "MaxSpeed": 5
-        },
-        {
-            "ItemID": 100004,
-            "ItemType": 2,
-            "Rarity": 0,
-            "Name": "劣質船帆",
-            "Desc": "",
-            "GearID": 444444,
-            "GearType": "G04",
-            "Model": "null",
-            "Acceleration": 1
-        },
-        {
-            "ItemID": 100005,
-            "ItemType": 2,
-            "Rarity": 0,
-            "Name": "劣質船舵",
-            "Desc": "",
-            "GearID": 555555,
-            "GearType": "G05",
-            "Model": "null",
-            "TurningSpeed": 50
-        },
-        {
-            "ItemID": 100006,
-            "ItemType": 2,
-            "Rarity": 0,
-            "Name": "劣質大砲",
-            "Desc": "",
-            "GearID": 666666,
-            "GearType": "G06",
-            "Model": "null",
-            "CannonAtk": 250
-        }
-    ]
+    "GUID": "",
+    "ShipName": "TestShip",
+    "ModelName": "A2",
+    "State": {
+        "MaxArmour": 1000,
+        "MaxSpeed": 5,
+        "Acceleration": 1,
+        "TurningSpeed": 50,
+        "CannonAtk": 250,
+        "StrikeAtk": 10,
+        "MaxMorale": 100,
+        "WeaponNum": 1,
+        "CannonCapacity": 10,
+        "MaxCrewNum": 20
+    }
 }

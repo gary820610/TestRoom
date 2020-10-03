@@ -14,6 +14,9 @@ public interface IItem
     /// </summary>
     ItemType ItemType { get; }
 
+    /// <summary>
+    /// From 1 to 5.
+    /// </summary>
     int Rarity { get; }
 
     int Amount { get;}
