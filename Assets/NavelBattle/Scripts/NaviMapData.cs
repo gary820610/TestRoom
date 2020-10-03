@@ -9,7 +9,7 @@ public class NaviMapData
         _topR = topRight;
         _botL = botLeft;
     }
-
+    
     public float LeftBorder { get { return _botL.x; } }
     public float RightBorder { get { return _topR.x; } }
     public float TopBorder { get { return _topR.z; } }

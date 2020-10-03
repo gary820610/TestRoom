@@ -65,8 +65,7 @@ public class Ship : MonoBehaviour
         _moveDir = forwardVector;
     }
 
-    public void Fire(Vector3 target)
-    {
+    public void Fire (Vector3 target, string TagName) {
         Vector3 nowPos = this.gameObject.transform.position;
         CannonModel cannonBall = cannonNumber.Value;
         Vector3 oriPos = this.transform.position;
@@ -75,7 +74,7 @@ public class Ship : MonoBehaviour
         cannonBall.Fire(target);
         if (cannonNumber.Next == null) cannonNumber = _cannons.First;
         cannonNumber = cannonNumber.Next;
-
+        cannonBall.tag = TagName;
     }
 
     public void SetBorder(NaviMapData mapData)
@@ -174,12 +173,24 @@ public class Ship : MonoBehaviour
             instance.gameObject.SetActive(false);
         }
         cannonNumber = _cannons.First;
-    }
 
-    void OnTriggerEnter(Collider other)
-    {
-        switch (other.name)
+        //cannonModel.AddComponent<CapsuleCollider>();
+        //set tag
+        /*
+        if (this.tag== "Player")
         {
+            cannonModel.tag = "PlayerCannon";
+            Debug.Log("PlayerCannon!!!");
+        }
+        else if (this.tag == "Enemy")
+        {
+            cannonModel.tag = "EnemyCannon";
+            Debug.Log("EnemyCannon!!!");
+        }*/
+    }
+    /*
+    void OnTriggerEnter (Collider other) {
+        switch (other.name) {
             case "cannon":
                 Debug.Log("Get hit by a cannon!!!");
                 break;
@@ -191,12 +202,22 @@ public class Ship : MonoBehaviour
                 break;
         }
     }
-
+    */
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Vector3 from = this.transform.position;
         Vector3 to = this.transform.position + (this.transform.forward * 10);
         Gizmos.DrawLine(from, to);
+    }
+
+    public float OnGetArmour()
+    {
+        return _armour;
+    }
+
+    public void OnSetArmour(float Armour)
+    {
+        _armour= Armour;
     }
 }

@@ -20,7 +20,15 @@ public class NaviBattleMaster : MonoBehaviour
         Ship playerShip = shipModel.AddComponent<Ship>();
         playerShip.Init(data);
         shipModel.AddComponent<PlayerShipController>();
+
+        //set tag
+        shipModel.tag = "Player";
+
+        //set collider
+        SetCollider(shipModel);
+
         ShowShipStats(playerShip);
+
     }
 
     void ShowShipStats(Ship ship)
@@ -39,4 +47,19 @@ public class NaviBattleMaster : MonoBehaviour
         Debug.Log("crewNum === " + data.MaxCrewNum);
     }
 
+    void SetCollider(GameObject ShipModel)
+    {
+        Collider ShipCollider;
+        Rigidbody ShipRigidbody;
+        //mesh collider?
+        ShipModel.AddComponent<CapsuleCollider>();
+        ShipModel.AddComponent<Rigidbody>();
+
+        ShipCollider = ShipModel.GetComponent<CapsuleCollider>();
+        ShipRigidbody = ShipModel.GetComponent<Rigidbody>();
+
+        ShipCollider.isTrigger = true;
+        ShipRigidbody.useGravity = false;
+        ShipRigidbody.isKinematic = true;
+    }
 }

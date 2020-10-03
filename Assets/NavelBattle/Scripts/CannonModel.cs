@@ -23,7 +23,7 @@ public class CannonModel : MonoBehaviour {
         _target = this.transform.position;
         _oriPos = this.transform.position;
         _oriRot = this.transform.rotation;
-        _atk = 0;
+        _atk = 300;
     }
 
     // Update is called once per frame
@@ -76,4 +76,14 @@ public class CannonModel : MonoBehaviour {
         Vector3 to = from + this.transform.forward;
         Gizmos.DrawLine (from, to);
     }
+    /*
+    void OnTriggerEnter(Collider Other)
+    {
+        if (Other.tag=="Player")
+        {
+            Debug.Log("HITT!!!");
+            this.gameObject.SetActive(false);
+        }            
+        
+    }*/
 }
