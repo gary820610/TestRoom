@@ -6,13 +6,8 @@ using UnityEngine.UI;
 public class EnemyShipController : MonoBehaviour, IShipController
 {
     Ship _EnemyShip;
-    
-    /*ParticleSystem _pressEffect;
-    Vector3 _oriFingerPos;
-    Vector3 _endFingerPos;
-    Vector3 _fingerPosWorld;*/
+    CannonModel PlayerCannon;
 
-    //int _timer = 0;
     float DistanceToPlayer;
 
     float Distance1 = 7.0f;
@@ -20,10 +15,13 @@ public class EnemyShipController : MonoBehaviour, IShipController
 
     float _cdTimer = 2;
 
-    //int _maxFirePressTime = 300;
-    //float _minMoveSlideLength = 100;
-
     Transform TargetShip;
+
+    GameObject HP;
+    GameObject HPBar;
+    public Vector3 FaceToCameraDirection;
+    float hpPersentage;
+    float maxArmour;
 
     enum MoveStateType
     {
@@ -41,8 +39,8 @@ public class EnemyShipController : MonoBehaviour, IShipController
         this.transform.LookAt(TargetShip);
         _EnemyShip = this.gameObject.GetComponent<Ship>();
 
-        /*GameObject pressFX = GameObject.Instantiate(AssetsLoader.LoadPrefab("PressEffect"));
-        _pressEffect = pressFX.GetComponent<ParticleSystem>();*/
+        SetHPBar();
+        maxArmour = _EnemyShip.OnGetArmour();
     }
 
     // Update is called once per frame
@@ -51,9 +49,9 @@ public class EnemyShipController : MonoBehaviour, IShipController
         FireCD();
         Move();
         Fire(TargetShip.position + new Vector3(0.0f, 0.5f, 0.0f));
+        SetHPBarPosition();
     }
 
-    //public void Move(ship ship)
     public void Move()
     {
         DistanceToPlayer = Vector3.Distance(this.transform.position, TargetShip.position);
@@ -93,10 +91,8 @@ public class EnemyShipController : MonoBehaviour, IShipController
 
     public void Fire(Vector3 target)
     {
-        //Debug.Log("CD ++++++ " + _cdTimer);
-        if (_cdTimer < 2) return;
-        //ShowEffect(target);
-        _EnemyShip.Fire(target);
+        if (_cdTimer < 4) return;
+        _EnemyShip.Fire(target, "EnemyCannon");
         _cdTimer = 0;
     }
 
@@ -105,4 +101,68 @@ public class EnemyShipController : MonoBehaviour, IShipController
         _cdTimer += Time.deltaTime;
     }
 
+    void OnTriggerEnter(Collider Other)
+    {
+        if (Other.tag == "PlayerCannon")
+        {
+            PlayerCannon = GameObject.FindWithTag("PlayerCannon").GetComponent<CannonModel>();
+            OnHit(PlayerCannon);
+        }
+    }
+
+    void OnTriggerStay(Collider Other)
+    {
+        if (Other.tag == "Player")
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(this.transform.position, this.transform.forward);
+            bool isHit = Physics.Raycast(ray, out hit, 1f, 1 << 0, QueryTriggerInteraction.Collide);
+
+            if (isHit)
+            {
+                print("Enemy hit Player");
+                PauseGame();
+            }
+        }
+    }
+
+
+
+
+    void OnHit(CannonModel Cannon)
+    {
+        _EnemyShip.OnSetArmour(_EnemyShip.OnGetArmour() - Cannon.GetAtk());
+        //Debug.Log("Enemy.OnGetArmour()2 : " + _EnemyShip.OnGetArmour());
+        //Debug.Log("Cannon.GetAtk()2 : " + Cannon.GetAtk());
+
+        if (_EnemyShip.OnGetArmour() < 0)
+            _EnemyShip.OnSetArmour(0);
+
+        hpPersentage = (_EnemyShip.OnGetArmour() / maxArmour);
+        HP.transform.localScale = new Vector3(hpPersentage, 1, 1);
+
+        if (_EnemyShip.OnGetArmour() <= 0)
+            PauseGame();
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    void SetHPBarPosition()
+    {
+        HPBar.transform.rotation = Quaternion.LookRotation(FaceToCameraDirection);
+        HPBar.transform.position = this.transform.position + new Vector3(0, 0, -1);
+    }
+
+    void SetHPBar()
+    {
+        HPBar = GameObject.Instantiate(GameObject.Find("HPBar"));
+        HP = HPBar.transform.Find("HP").gameObject;
+
+        HPBar.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+        FaceToCameraDirection = this.transform.position - GameObject.FindWithTag("MainCamera").transform.position;
+        HPBar.transform.rotation = Quaternion.LookRotation(FaceToCameraDirection);
+    }
 }
