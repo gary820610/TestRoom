@@ -4,7 +4,7 @@
         "ShipGearsData": [
             {
                 "ItemID": 100001,
-                "ItemType": 2,
+                "ItemType": 1,
                 "Rarity": 1,
                 "Name": "輕型船體",
                 "Desc": "最基礎的船身",
@@ -22,7 +22,7 @@
             },
             {
                 "ItemID": 100002,
-                "ItemType": 2,
+                "ItemType": 1,
                 "Rarity": 1,
                 "Name": "劣質船首",
                 "Desc": "最基礎的船首",
@@ -35,7 +35,7 @@
             },
             {
                 "ItemID": 100003,
-                "ItemType": 2,
+                "ItemType": 1,
                 "Rarity": 1,
                 "Name": "劣質船桅",
                 "Desc": "最基礎的船桅",
@@ -48,7 +48,7 @@
             },
             {
                 "ItemID": 100004,
-                "ItemType": 2,
+                "ItemType": 1,
                 "Rarity": 1,
                 "Name": "劣質船帆",
                 "Desc": "最基礎的船帆",
@@ -61,7 +61,7 @@
             },
             {
                 "ItemID": 100005,
-                "ItemType": 2,
+                "ItemType": 1,
                 "Rarity": 1,
                 "Name": "劣質船舵",
                 "Desc": "最基礎的船舵",
@@ -74,7 +74,7 @@
             },
             {
                 "ItemID": 100006,
-                "ItemType": 2,
+                "ItemType": 1,
                 "Rarity": 1,
                 "Name": "劣質大砲",
                 "Desc": "最基礎的大砲",
@@ -86,8 +86,52 @@
                 "CannonAtk": 250
             }
         ],
-        "RunesData": [],
-        "JadesData": []
+        "RunesData": [
+            {
+                "ItemID": 100101,
+                "ItemType": 2,
+                "Rarity": 1,
+                "Name": "初級速度符咒",
+                "Desc": "破破爛爛的神祕符咒，貼在船桅上可使最大速度增加0.5",
+                "EnhType": 102,
+                "EffectID": 900101,
+                "EnhanceRate": 90,
+                "RuneUID": "b73f24d4-6565-49e8-9210-af440f92c932",
+                "KaiGuangTimes": 0
+            },
+            {
+                "ItemID": 100201,
+                "ItemType": 2,
+                "Rarity": 1,
+                "Name": "初級加速符咒",
+                "Desc": "破破爛爛的神祕符咒，貼在船帆上可使船隻加速度增加0.2",
+                "EnhType": 103,
+                "EffectID": 900201,
+                "EnhanceRate": 90,
+                "RuneUID": "8b5d0e2c-cd09-4893-bb45-1ee6dac45572",
+                "KaiGuangTimes": 0
+            }
+        ],
+        "JadesData": [
+            {
+                "ItemID": 200101,
+                "ItemType": 11,
+                "Rarity": 1,
+                "Amount": 47,
+                "Name": "劣質玉珮",
+                "Desc": "劣質的玉珮，可稍微強化裝備",
+                "EnhType": 0
+            },
+            {
+                "ItemID": 200102,
+                "ItemType": 11,
+                "Rarity": 2,
+                "Amount": 18,
+                "Name": "廉價玉珮",
+                "Desc": "廉價的玉珮，可少許強化裝備",
+                "EnhType": 0
+            }
+        ]
     },
     "MyShipData": [
         {

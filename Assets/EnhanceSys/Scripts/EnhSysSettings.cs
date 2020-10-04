@@ -11,13 +11,13 @@ static public class EnhSysSettings
     static public int BaseJadeExp => 100;
 
     /// <summary>
-    /// 裝備升段所需經驗值的基數。裝備升段所需經驗 = 裝備段數 * 基數 * 比例常數。
+    /// 裝備升段所需經驗值的基數。裝備升段所需經驗 = (增加倍數 ^ 裝備段數) * 經驗值基數。
     /// </summary>
     /// <value>1000</value>
     static public int BaseLvUpExp => 1000;
 
     /// <summary>
-    /// 裝備升段所需經驗值的比例常數。裝備升段所需經驗 = 裝備段數 * 基數 * 比例常數。
+    /// 裝備升段所需經驗值的增加倍數。裝備升段所需經驗 = (增加倍數 ^ 裝備段數) * 經驗值基數。
     /// </summary>
     /// <value>1.5</value>
     static public float LvUpExpRatio => 1.5f;

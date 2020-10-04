@@ -30,6 +30,9 @@ public interface IItem
 
     Texture2D ItemIcon { get; }
 
+    event Bag.DecHandler OnDecrease;
+    event EnhanceMaster.RemoveHandler OnRemove;
+
     void Init();
     void Increase(int amount);
     void Decrease(int amount);

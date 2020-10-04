@@ -21,7 +21,6 @@ public class AssetsLoader
         for (int i = 0; i < array.Count; i++)
         {
             indexer[i] = JsonConvert.DeserializeObject<T>(array[i].ToString());
-            Debug.Log(indexer[i]);
         }
         return indexer;
     }

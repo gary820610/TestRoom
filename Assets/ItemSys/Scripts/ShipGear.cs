@@ -60,9 +60,17 @@ public class ShipGear : IItem, IEnhanceable
     [JsonProperty]
     public int MaxCrewNum { get; internal set; }
 
+    public event Bag.DecHandler OnDecrease;
+    public event EnhanceMaster.RemoveHandler OnRemove;
 
     public void PlusGearProps(ShipGear gear)
     {
+        Debug.Log("強化前能力 : ");
+        Debug.Log("Armour === " + MaxArmour);
+        Debug.Log("MaxSpeed === " + MaxSpeed);
+        Debug.Log("Acceleration === " + Acceleration);
+        Debug.Log("TurningSpeed === " + TurningSpeed);
+        Debug.Log("CannonAtk === " + CannonAtk);
         this.MaxArmour += gear.MaxArmour;
         this.MaxSpeed += gear.MaxSpeed;
         this.Acceleration += gear.Acceleration;
@@ -73,6 +81,12 @@ public class ShipGear : IItem, IEnhanceable
         this.MaxMorale += gear.MaxMorale;
         this.WeaponNum += gear.WeaponNum;
         this.MaxCrewNum += gear.MaxCrewNum;
+        Debug.Log("強化後能力 : ");
+        Debug.Log("Armour === " + MaxArmour);
+        Debug.Log("MaxSpeed === " + MaxSpeed);
+        Debug.Log("Acceleration === " + Acceleration);
+        Debug.Log("TurningSpeed === " + TurningSpeed);
+        Debug.Log("CannonAtk === " + CannonAtk);
     }
 
     public void EnhanceBy(IEnhancer enhancer)
@@ -90,6 +104,7 @@ public class ShipGear : IItem, IEnhanceable
     public void LevelUp()
     {
         Lv++;
+        Debug.Log("升級!!! 當前等級 === " + Lv);
     }
 
     public void ResetExp()
@@ -110,16 +125,17 @@ public class ShipGear : IItem, IEnhanceable
 
     public void Increase(int amount)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("ShipGear.Increase hadn't finished yet");
     }
 
     public void Decrease(int amount)
     {
-        throw new System.NotImplementedException();
+        OnDecrease(this);
+        OnRemove();
     }
 
     public void Init()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("ShipGear.Init hadn't finished yet");
     }
 }

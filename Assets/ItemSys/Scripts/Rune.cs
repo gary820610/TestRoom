@@ -29,15 +29,18 @@ public class Rune : IItem, IEnhancer
     /// A unique id of this particular rune.
     /// </summary>
     [JsonProperty]
-    public int RuneUID { get; internal set; }
+    public string RuneUID { get; internal set; }
     [JsonProperty]
     public int KaiGuangTimes { get; internal set; }
+
+    public event Bag.DecHandler OnDecrease;
+    public event EnhanceMaster.RemoveHandler OnRemove;
 
     public void KaiGuang()
     {
         KaiGuangTimes++;
 
-    }    
+    }
 
     public void Init()
     {
@@ -46,11 +49,12 @@ public class Rune : IItem, IEnhancer
 
     public void Increase(int amount)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void Decrease(int amount)
     {
-        throw new System.NotImplementedException();
+        OnDecrease(this);
+        OnRemove();
     }
 }

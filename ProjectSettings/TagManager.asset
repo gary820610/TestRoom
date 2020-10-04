@@ -8,6 +8,7 @@ TagManager:
   - GameMain
   - Enemy
   - EnemyCannon
+  - BagGrid
   layers:
   - Default
   - TransparentFX

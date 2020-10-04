@@ -24,18 +24,26 @@ public class Jade : IItem, IEnhancer
     public int EnhanceRate { get => 100; }
     public int EffectID { get => Rarity * 100; }
 
+    public event Bag.DecHandler OnDecrease;
+    public event EnhanceMaster.RemoveHandler OnRemove;
+
     public void Decrease(int amount)
     {
-        throw new System.NotImplementedException();
+        Amount -= amount;
+        if (Amount <= 0)
+        {
+            OnDecrease(this);
+            OnRemove();
+        }
     }
 
     public void Increase(int amount)
     {
-        throw new System.NotImplementedException();
+        Amount += amount;
     }
 
     public void Init()
     {
-        throw new System.NotImplementedException();
+
     }
 }

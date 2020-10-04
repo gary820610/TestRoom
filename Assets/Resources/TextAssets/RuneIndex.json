@@ -1,20 +1,20 @@
 [
     {
         "ItemID": 100101,
-        "ItemType": 9,
-        "Rarity": 0,
-        "Name": "初級船桅符咒",
+        "ItemType": 2,
+        "Rarity": 1,
+        "Name": "初級速度符咒",
         "Desc": "破破爛爛的神祕符咒，貼在船桅上可使最大速度增加0.5",
-        "EnhType": 100,
+        "EnhType": 102,
         "EffectID": 900101
     },
     {
         "ItemID": 100201,
-        "ItemType": 9,
-        "Rarity": 0,
-        "Name": "初級船帆符咒",
+        "ItemType": 2,
+        "Rarity": 1,
+        "Name": "初級加速符咒",
         "Desc": "破破爛爛的神祕符咒，貼在船帆上可使船隻加速度增加0.2",
-        "EnhType": 100,
+        "EnhType": 103,
         "EffectID": 900201
     }
 ]

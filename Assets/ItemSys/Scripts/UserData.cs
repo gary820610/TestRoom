@@ -25,4 +25,6 @@ public class UserData
             MyShips.Add(ShipDataHelper.DeserializeShipData(MyBag, tData));
         }
     }
+
+    
 }

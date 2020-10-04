@@ -18,15 +18,23 @@ public class Bag
     [JsonProperty]
     Jade[] JadesData { get; set; }
 
+    public delegate void DecHandler(IItem item);
+
     public void Init()
     {
         MyItems = new List<IItem>();
-        this.MyShipGears = ShipGearsData.ToList();
-        this.MyRunes = RunesData.ToList();
-        this.MyJades = JadesData.ToList();
-        MyItems.AddRange(MyShipGears);
+        MyShipGears = ShipGearsData.ToList();
+        MyRunes = RunesData.ToList();
+        MyJades = JadesData.ToList();
+
+        MyShipGears.AddRange(MyShipGears);
         MyItems.AddRange(MyRunes);
         MyItems.AddRange(MyJades);
+
+        foreach (IItem item in MyItems)
+        {
+            item.OnDecrease += RemoveItem;
+        }
     }
 
     public void AddItem(int itemID, int amount)
@@ -51,6 +59,23 @@ public class Bag
                 item.Increase(amount);
             }
         }
+    }
+
+    public void RemoveItem(IItem item)
+    {
+        switch (item.ItemType)
+        {
+            case ItemType.ShipGear:
+                MyShipGears.Remove((ShipGear)item);
+                break;
+            case ItemType.Rune:
+                MyRunes.Remove((Rune)item);
+                break;
+            case ItemType.Jade:
+                MyJades.Remove((Jade)item);
+                break;
+        }
+        MyItems.Remove(item);
     }
 
     public IItem GetItem(int itemID)

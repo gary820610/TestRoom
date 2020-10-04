@@ -21,6 +21,6 @@ public class EnhanceIndexer
 
     static public ShipGear GetShipJadeEff(EnhanceType type, int effectID)
     {
-        return _jadeEffectsSG.Where(effect => effect.EnhType == type).Where(effect => effect.EnhanceID == effectID).ToArray()[0];
+        return _jadeEffectsSG.Where(effect => (int)effect.EnhType == (int)type).Where(effect => effect.EnhanceID == effectID).ToArray()[0];
     }
 }

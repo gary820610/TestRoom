@@ -1,0 +1,152 @@
+[
+    {
+        "EnhType": 101,
+        "EnhanceID": 100,
+        "MaxArmour": 100
+    },
+    {
+        "EnhType": 101,
+        "EnhanceID": 200,
+        "MaxArmour": 200
+    },
+    {
+        "EnhType": 101,
+        "EnhanceID": 300,
+        "MaxArmour": 300
+    },
+    {
+        "EnhType": 101,
+        "EnhanceID": 400,
+        "MaxArmour": 400
+    },
+    {
+        "EnhType": 101,
+        "EnhanceID": 500,
+        "MaxArmour": 500
+    },
+    {
+        "EnhType": 102,
+        "EnhanceID": 100,
+        "MaxSpeed": 0.2
+    },
+    {
+        "EnhType": 102,
+        "EnhanceID": 200,
+        "MaxSpeed": 0.4
+    },
+    {
+        "EnhType": 102,
+        "EnhanceID": 300,
+        "MaxSpeed": 0.6
+    },
+    {
+        "EnhType": 102,
+        "EnhanceID": 400,
+        "MaxSpeed": 0.8
+    },
+    {
+        "EnhType": 102,
+        "EnhanceID": 500,
+        "MaxSpeed": 1.0
+    },
+    {
+        "EnhType": 103,
+        "EnhanceID": 100,
+        "Acceleration": 0.2
+    },
+    {
+        "EnhType": 103,
+        "EnhanceID": 200,
+        "Acceleration": 0.4
+    },
+    {
+        "EnhType": 103,
+        "EnhanceID": 300,
+        "Acceleration": 0.6
+    },
+    {
+        "EnhType": 103,
+        "EnhanceID": 400,
+        "Acceleration": 0.8
+    },
+    {
+        "EnhType": 103,
+        "EnhanceID": 500,
+        "Acceleration": 1.0
+    },
+    {
+        "EnhType": 104,
+        "EnhanceID": 100,
+        "TurningSpeed": 2
+    },
+    {
+        "EnhType": 104,
+        "EnhanceID": 200,
+        "TurningSpeed": 4
+    },
+    {
+        "EnhType": 104,
+        "EnhanceID": 300,
+        "TurningSpeed": 6
+    },
+    {
+        "EnhType": 104,
+        "EnhanceID": 400,
+        "TurningSpeed": 8
+    },
+    {
+        "EnhType": 104,
+        "EnhanceID": 500,
+        "TurningSpeed": 10
+    },
+    {
+        "EnhType": 105,
+        "EnhanceID": 100,
+        "CannonAtk": 10
+    },
+    {
+        "EnhType": 105,
+        "EnhanceID": 200,
+        "CannonAtk": 20
+    },
+    {
+        "EnhType": 105,
+        "EnhanceID": 300,
+        "CannonAtk": 30
+    },
+    {
+        "EnhType": 105,
+        "EnhanceID": 400,
+        "CannonAtk": 40
+    },
+    {
+        "EnhType": 105,
+        "EnhanceID": 500,
+        "CannonAtk": 50
+    },
+    {
+        "EnhType": 106,
+        "EnhanceID": 100,
+        "StrikeAtk": 1
+    },
+    {
+        "EnhType": 106,
+        "EnhanceID": 200,
+        "StrikeAtk": 2
+    },
+    {
+        "EnhType": 106,
+        "EnhanceID": 300,
+        "StrikeAtk": 3
+    },
+    {
+        "EnhType": 106,
+        "EnhanceID": 400,
+        "StrikeAtk": 4
+    },
+    {
+        "EnhType": 106,
+        "EnhanceID": 500,
+        "StrikeAtk": 5
+    }
+]
