@@ -34,17 +34,17 @@ public class NaviBattleMaster : MonoBehaviour
     void ShowShipStats(Ship ship)
     {
         ShipGear data = ship.ShipData;
-        Debug.Log("ShipID === " + data.GearUID);
-        Debug.Log("name === " + data.Name);
-        Debug.Log("maxArmour === " + data.MaxArmour);
-        Debug.Log("maxSpeed === " + data.MaxSpeed);
-        Debug.Log("acceleration === " + data.Acceleration);
-        Debug.Log("cannonAtk === " + data.CannonAtk);
-        Debug.Log("cannonCapacity === " + data.CannonCapacity);
-        Debug.Log("turningSpeed === " + data.TurningSpeed);
-        Debug.Log("strikeAtk === " + data.StrikeAtk);
-        Debug.Log("cannonNum === " + data.WeaponNum);
-        Debug.Log("crewNum === " + data.MaxCrewNum);
+        // Debug.Log("ShipID === " + data.GearUID);
+        // Debug.Log("name === " + data.Name);
+        // Debug.Log("maxArmour === " + data.MaxArmour);
+        // Debug.Log("maxSpeed === " + data.MaxSpeed);
+        // Debug.Log("acceleration === " + data.Acceleration);
+        // Debug.Log("cannonAtk === " + data.CannonAtk);
+        // Debug.Log("cannonCapacity === " + data.CannonCapacity);
+        // Debug.Log("turningSpeed === " + data.TurningSpeed);
+        // Debug.Log("strikeAtk === " + data.StrikeAtk);
+        // Debug.Log("cannonNum === " + data.WeaponNum);
+        // Debug.Log("crewNum === " + data.MaxCrewNum);
     }
 
     void SetCollider(GameObject ShipModel)

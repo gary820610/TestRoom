@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - EnemyCannon
   - BagGrid
+  - PlayerCannon
   layers:
   - Default
   - TransparentFX

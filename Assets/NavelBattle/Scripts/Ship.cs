@@ -65,7 +65,8 @@ public class Ship : MonoBehaviour
         _moveDir = forwardVector;
     }
 
-    public void Fire (Vector3 target, string TagName) {
+    public void Fire(Vector3 target, string TagName)
+    {
         Vector3 nowPos = this.gameObject.transform.position;
         CannonModel cannonBall = cannonNumber.Value;
         Vector3 oriPos = this.transform.position;
@@ -124,7 +125,7 @@ public class Ship : MonoBehaviour
         Vector3 prob = this.transform.position + (this.transform.forward * 5);
         if (prob.x <= _mapData.LeftBorder || prob.x >= _mapData.RightBorder || prob.z <= _mapData.BotBorder || prob.z >= _mapData.TopBorder)
         {
-            Debug.LogWarning("Hit the border!!! " + prob);
+            //Debug.LogWarning("Hit the border!!! " + prob);
             return true;
         }
         else return false;
@@ -190,6 +191,6 @@ public class Ship : MonoBehaviour
 
     public void OnSetArmour(float Armour)
     {
-        _armour= Armour;
+        _armour = Armour;
     }
 }
