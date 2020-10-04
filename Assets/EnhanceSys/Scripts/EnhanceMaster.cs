@@ -86,6 +86,12 @@ public class EnhanceMaster : MonoBehaviour
 
     public void EnhanceByRune()
     {
+        if (m_Enhancer is null)
+        {
+            Debug.Log("Please select a enhancer first");
+            return;
+        }
+
         if (!CheckTypeMatch())
         {
             Debug.Log("EnhanceType not match");
@@ -114,6 +120,12 @@ public class EnhanceMaster : MonoBehaviour
 
     public void EnhanceByJade()
     {
+        if (m_Enhancer is null)
+        {
+            Debug.Log("Please select a enhancer first");
+            return;
+        }
+
         if (m_Enhancer.EnhType != EnhanceType.Jade)
         {
             Debug.Log("This enhancer is not a Jade");
