@@ -27,7 +27,7 @@ public class Bag
         MyRunes = RunesData.ToList();
         MyJades = JadesData.ToList();
 
-        MyShipGears.AddRange(MyShipGears);
+        MyItems.AddRange(MyShipGears);
         MyItems.AddRange(MyRunes);
         MyItems.AddRange(MyJades);
 
