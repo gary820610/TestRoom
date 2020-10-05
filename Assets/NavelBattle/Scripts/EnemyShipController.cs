@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class EnemyShipController : MonoBehaviour, IShipController
 {
+
     Ship _EnemyShip;
+    Ship PlayerShip;
     CannonModel PlayerCannon;
 
     float DistanceToPlayer;
 
-    float Distance1 = 7.0f;
-    float Distance2 = 15.0f;
+    float Distance1;
+    float Distance2;
 
     float _cdTimer = 2;
 
@@ -22,6 +24,8 @@ public class EnemyShipController : MonoBehaviour, IShipController
     public Vector3 FaceToCameraDirection;
     float hpPersentage;
     float maxArmour;
+
+    float HitBoard = 0.0f;
 
     enum MoveStateType
     {
@@ -34,21 +38,28 @@ public class EnemyShipController : MonoBehaviour, IShipController
     void Start()
     {
         TargetShip = GameObject.FindWithTag("Player").GetComponent<Transform>();
-
+        PlayerShip = GameObject.FindWithTag("Player").GetComponent<Ship>();
+        
         this.transform.position = this.transform.position + new Vector3(0.0f, 0.0f, 15.0f);
         this.transform.LookAt(TargetShip);
         _EnemyShip = this.gameObject.GetComponent<Ship>();
 
         SetHPBar();
         maxArmour = _EnemyShip.OnGetArmour();
+
+        Distance1 = EnemySetting.Distance1;
+        Distance2 = EnemySetting.Distance2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        FireCD();
-        Move();
-        Fire(TargetShip.position + new Vector3(0.0f, 0.5f, 0.0f));
+        if (_EnemyShip.OnGetArmour() > 0)
+        {
+            FireCD();
+            Move();
+            Fire(TargetShip.position + new Vector3(0.0f, 0.5f, 0.0f));
+        }
         SetHPBarPosition();
     }
 
@@ -64,29 +75,44 @@ public class EnemyShipController : MonoBehaviour, IShipController
         else if (DistanceToPlayer < Distance1)
             MoveState = MoveStateType.RushToPlayer;
 
+        if (_EnemyShip.ReachBorder())
+            HitBoard = 1.5f;
 
-        
-        switch (MoveState)
+        if (PlayerShip.OnGetArmour()<=0)
         {
-            case MoveStateType.Idle:
-
-                break;
-
-            case MoveStateType.StayAway:
-                ForwardVec = (this.transform.position - TargetShip.position).normalized;
-                _EnemyShip.MoveTo(ForwardVec);
-                _EnemyShip.StartMoving();
-                
-                break;
-
-            case MoveStateType.RushToPlayer:
-                ForwardVec = (TargetShip.position - this.transform.position).normalized;
-                _EnemyShip.MoveTo(ForwardVec);
-                _EnemyShip.StartMoving();
-
-                break;
-
+            ForwardVec = (TargetShip.position - this.transform.position).normalized;
         }
+        else
+        {
+            if (HitBoard > 0)
+            {
+                HitBoard = HitBoard - 0.01f;
+                //ForwardVec = (Vector3.Scale(TargetShip.position - this.transform.position, new Vector3(-1f, 1f, 1f))).normalized;
+                ForwardVec = (TargetShip.position - this.transform.position).normalized;
+            }
+            else
+            {
+
+                switch (MoveState)
+                {
+                    case MoveStateType.Idle:
+
+                        break;
+
+                    case MoveStateType.StayAway:
+                        ForwardVec = (this.transform.position - TargetShip.position).normalized;
+                        break;
+
+                    case MoveStateType.RushToPlayer:
+                        ForwardVec = (TargetShip.position - this.transform.position).normalized;
+                        break;
+                }
+
+            }
+        }
+        _EnemyShip.MoveTo(ForwardVec);
+        _EnemyShip.StartMoving();
+        Debug.Log(" : " + PlayerShip.OnGetArmour());
     }
 
     public void Fire(Vector3 target)
@@ -141,8 +167,8 @@ public class EnemyShipController : MonoBehaviour, IShipController
         hpPersentage = (_EnemyShip.OnGetArmour() / maxArmour);
         HP.transform.localScale = new Vector3(hpPersentage, 1, 1);
 
-        if (_EnemyShip.OnGetArmour() <= 0)
-            PauseGame();
+        /*if (_EnemyShip.OnGetArmour() <= 0)
+            PauseGame();*/
     }
 
     void PauseGame()

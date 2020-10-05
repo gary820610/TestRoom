@@ -39,8 +39,11 @@ public class PlayerShipController : MonoBehaviour, IShipController {
 
     // Update is called once per frame
     void Update () {
-        FireCD ();
-        Move ();
+        if (_myShip.OnGetArmour() > 0)
+        {
+            FireCD ();
+            Move();
+        }
         SetHPBarPosition();
     }
 
@@ -141,8 +144,8 @@ public class PlayerShipController : MonoBehaviour, IShipController {
         hpPersentage = (_myShip.OnGetArmour() / maxArmour);
         HP.transform.localScale = new Vector3(hpPersentage, 1, 1);
 
-        if (_myShip.OnGetArmour()<=0)
-            PauseGame();
+        /*if (_myShip.OnGetArmour()<=0)
+            PauseGame();*/
     }
 
     void PauseGame()

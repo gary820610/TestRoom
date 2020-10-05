@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTest : MonoBehaviour
+public class EnemySetting : MonoBehaviour
 {
-
-    //[SerializeField]
+    /*[SerializeField]
+    Transform spawn;*/
+    [SerializeField]
+    public float DistanceToClose;
+    [SerializeField]
+    public float DistanceToFlee;
     //public  PlayerShip;
+
+    public static float Distance1;
+    public static float Distance2;
+
 
     void Start()
     {
@@ -24,7 +32,7 @@ public class EnemyTest : MonoBehaviour
         Ship EnemyShip = EnemyShipModel.AddComponent<Ship>();
 
         EnemyShip.Init(EnemyData);
-        EnemyShip.ShipData.WeaponNum = 1000;
+        EnemyShip.ShipData.cannonNum = 1000;
 
         EnemyShipModel.AddComponent<EnemyShipController>();
 
@@ -33,6 +41,9 @@ public class EnemyTest : MonoBehaviour
         EnemyShipModel.tag = "Enemy";
 
         SetCollider(EnemyShipModel);
+
+        Distance1 = DistanceToClose;
+        Distance2 = DistanceToFlee;
         //ShowShipStats(EnemyShip);
     }
 

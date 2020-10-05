@@ -102,7 +102,7 @@ public class Ship : MonoBehaviour {
         }
     }
 
-    bool ReachBorder () {
+    public bool ReachBorder () {
         Vector3 prob = this.transform.position + (this.transform.forward * 5);
         if (prob.x <= _mapData.LeftBorder || prob.x >= _mapData.RightBorder || prob.z <= _mapData.BotBorder || prob.z >= _mapData.TopBorder) {
             Debug.LogWarning ("Hit the border!!! " + prob);
@@ -190,5 +190,36 @@ public class Ship : MonoBehaviour {
     public void OnSetArmour(float Armour)
     {
         _armour= Armour;
+    }
+
+    public float Boarder()
+    {
+        Vector3 prob = this.transform.position + (this.transform.forward * 5);
+        if (prob.x <= _mapData.LeftBorder)
+        {
+            Debug.LogWarning("Boarder : 1" + prob);
+            return _mapData.LeftBorder;
+        }
+        else if (prob.x >= _mapData.RightBorder)
+        {
+            Debug.LogWarning("Boarder : 1" + prob);
+            return _mapData.RightBorder;
+        }
+        else if (prob.z <= _mapData.BotBorder)
+        {
+            Debug.LogWarning("Boarder : 2" + prob);
+            return _mapData.BotBorder;
+        }
+        else if (prob.z >= _mapData.TopBorder)
+        {
+            Debug.LogWarning("Boarder : 2" + prob);
+            return _mapData.TopBorder;
+        }
+        else if ((prob.x <= _mapData.LeftBorder || prob.x >= _mapData.RightBorder) && (prob.z <= _mapData.BotBorder || prob.z >= _mapData.TopBorder))
+        {
+            Debug.LogWarning("Boarder : 3" + prob);
+            return 3.0f;
+        }
+        else return 4.0f;
     }
 }
