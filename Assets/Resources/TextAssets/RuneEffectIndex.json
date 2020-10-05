@@ -1,0 +1,12 @@
+[
+    {
+        "EnhanceID": 900101,
+        "Desc": "船隻最大速度增加0.5",
+        "MaxSpeed": 0.5
+    },
+    {
+        "EnhanceID": 900201,
+        "Desc": "船隻加速度增加0.2",
+        "Acceleration": 0.2
+    }
+]

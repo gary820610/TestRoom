@@ -1,0 +1,150 @@
+{
+    "GUID": "fa554414-040b-486d-a492-8e8d6c265f4a",
+    "MyBag": {
+        "ShipGearsData": [
+            {
+                "ItemID": 100001,
+                "ItemType": 1,
+                "Rarity": 1,
+                "Name": "輕型船體",
+                "Desc": "最基礎的船身",
+                "Exp": 0,
+                "Lv": 0,
+                "EnhType": 101,
+                "JadeEnhStat": 0,
+                "GearUID": "4ac9d61f-9ffe-4138-9b53-49e340e5911b",
+                "Model": "A1",
+                "MaxArmour": 1000,
+                "Morale": 100,
+                "CannonNum": 1,
+                "CannonCapacity": 10,
+                "CrewNum": 20
+            },
+            {
+                "ItemID": 100002,
+                "ItemType": 1,
+                "Rarity": 1,
+                "Name": "劣質船首",
+                "Desc": "最基礎的船首",
+                "Exp": 0,
+                "Lv": 0,
+                "EnhType": 106,
+                "JadeEnhStat": 0,
+                "GearUID": "97153654-856c-47e5-94a1-3b93bd1373b9",
+                "StrikeAtk": 10
+            },
+            {
+                "ItemID": 100003,
+                "ItemType": 1,
+                "Rarity": 1,
+                "Name": "劣質船桅",
+                "Desc": "最基礎的船桅",
+                "Exp": 0,
+                "Lv": 0,
+                "EnhType": 102,
+                "JadeEnhStat": 0,
+                "GearUID": "9519f16d-c2b5-4a05-a302-99fc68c3e52d",
+                "MaxSpeed": 5
+            },
+            {
+                "ItemID": 100004,
+                "ItemType": 1,
+                "Rarity": 1,
+                "Name": "劣質船帆",
+                "Desc": "最基礎的船帆",
+                "Exp": 0,
+                "Lv": 0,
+                "EnhType": 103,
+                "JadeEnhStat": 0,
+                "GearUID": "10f2c4ac-1974-4c0c-ac05-512c48a58774",
+                "Acceleration": 1
+            },
+            {
+                "ItemID": 100005,
+                "ItemType": 1,
+                "Rarity": 1,
+                "Name": "劣質船舵",
+                "Desc": "最基礎的船舵",
+                "Exp": 0,
+                "Lv": 0,
+                "EnhType": 104,
+                "JadeEnhStat": 0,
+                "GearUID": "31b74d8a-156c-4cac-8beb-33ad20cd6bd4",
+                "TurningSpeed": 50
+            },
+            {
+                "ItemID": 100006,
+                "ItemType": 1,
+                "Rarity": 1,
+                "Name": "劣質大砲",
+                "Desc": "最基礎的大砲",
+                "Exp": 0,
+                "Lv": 0,
+                "EnhType": 105,
+                "JadeEnhStat": 0,
+                "GearUID": "5962c675-37b8-4c67-9af0-3875a3ce13d3",
+                "CannonAtk": 250
+            }
+        ],
+        "RunesData": [
+            {
+                "ItemID": 100101,
+                "ItemType": 2,
+                "Rarity": 1,
+                "Name": "初級速度符咒",
+                "Desc": "破破爛爛的神祕符咒，貼在船桅上可使最大速度增加0.5",
+                "EnhType": 102,
+                "EffectID": 900101,
+                "EnhanceRate": 90,
+                "RuneUID": "b73f24d4-6565-49e8-9210-af440f92c932",
+                "KaiGuangTimes": 0
+            },
+            {
+                "ItemID": 100201,
+                "ItemType": 2,
+                "Rarity": 1,
+                "Name": "初級加速符咒",
+                "Desc": "破破爛爛的神祕符咒，貼在船帆上可使船隻加速度增加0.2",
+                "EnhType": 103,
+                "EffectID": 900201,
+                "EnhanceRate": 90,
+                "RuneUID": "8b5d0e2c-cd09-4893-bb45-1ee6dac45572",
+                "KaiGuangTimes": 0
+            }
+        ],
+        "JadesData": [
+            {
+                "ItemID": 200101,
+                "ItemType": 11,
+                "Rarity": 1,
+                "Amount": 47,
+                "Name": "劣質玉珮",
+                "Desc": "劣質的玉珮，可稍微強化裝備",
+                "EnhType": 0
+            },
+            {
+                "ItemID": 200102,
+                "ItemType": 11,
+                "Rarity": 2,
+                "Amount": 18,
+                "Name": "廉價玉珮",
+                "Desc": "廉價的玉珮，可少許強化裝備",
+                "EnhType": 0
+            }
+        ]
+    },
+    "MyShipData": [
+        {
+            "GUID": 100001,
+            "Name": "TestShip",
+            "GearUIDs": [
+                "4ac9d61f-9ffe-4138-9b53-49e340e5911b",
+                "97153654-856c-47e5-94a1-3b93bd1373b9",
+                "9519f16d-c2b5-4a05-a302-99fc68c3e52d",
+                "10f2c4ac-1974-4c0c-ac05-512c48a58774",
+                "31b74d8a-156c-4cac-8beb-33ad20cd6bd4",
+                "5962c675-37b8-4c67-9af0-3875a3ce13d3"
+            ]
+        }
+    ]
+}

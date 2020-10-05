@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Pages
+  - GameMain
+  - Enemy
+  - EnemyCannon
+  - BagGrid
+  - PlayerCannon
   layers:
   - Default
   - TransparentFX
